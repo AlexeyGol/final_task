@@ -1,0 +1,95 @@
+---
+- name: Ensure that SSH connection is possible
+  hosts: tag_Name_Jenkins
+  gather_facts: False
+  tasks:
+    - name: ensure ssh port open
+      wait_for: 
+        port: 22
+        delay: 15
+        timeout: 30
+        search_regex: OpenSSH
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      vars:
+        ansible_connection: local
+
+- name: Install Docker
+  hosts: tag_Name_Jenkins
+  become: yes
+  tasks:
+    - name: Install Docker
+      yum:
+        name: docker
+        update_cache: yes
+        state: present
+
+- name: Install Docker-compose
+  hosts: tag_Name_Jenkins
+  become: yes
+  tasks:
+    - name: Download and Install Docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-{{ lookup('pipe', 'uname -m') }}
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+
+- name: Start Docker
+  hosts: tag_Name_Jenkins
+  become: yes
+  tasks:
+    - name: start Docker daemon
+      systemd:
+        name: docker
+        state: started
+
+- name: Create new linux user
+  hosts: tag_Name_Jenkins
+  become: yes
+  tasks:
+    - name:  Create new linux user
+      user:
+        name: alex
+        groups: docker, adm
+        append: yes
+
+# To solve docker.image problem
+- name: Install docker python module 
+  hosts: tag_Name_Jenkins
+  become: yes
+  tasks:
+    - name: install docker python module
+      pip:
+        name:
+          - docker
+          - docker-compose
+
+- name: Start docker containers
+  hosts: tag_Name_Jenkins
+  become: yes
+  become_user: alex
+  # vars_prompt:
+  #   - name: docker_password
+  #     prompt: Enter password for docker registry
+  tasks:
+    - name: copy docker-compose file to the server
+      copy:
+        src: /mnt/f/Devops/TEst/Terraform_docker/docker-compose.yml
+        dest: /home/alex/docker-compose.yml
+    # - name: docker log in to the registry
+    #   docker_login:
+    #     registry_url: https://index.docker.io/v1
+    #     username: alexeygo
+    #     password: {{docker_password}}
+    - name: create docker network 
+      docker_network:
+        name: nat
+        state: present
+    - name: run docker containers from compose
+      docker_compose: 
+        project_src: /home/alex/
+        state: present #=docker compose up
+
+
+      
+
+      
