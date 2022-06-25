@@ -1,20 +1,20 @@
 ---
-- name: Ensure that SSH connection is possible
-  hosts: tag_Name_Jenkins
-  gather_facts: False
-  tasks:
-    - name: ensure ssh port open
-      wait_for: 
-        port: 22
-        delay: 15
-        timeout: 30
-        search_regex: OpenSSH
-        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
-      vars:
-        ansible_connection: local
+# - name: Ensure that SSH connection is possible
+#   hosts: tag_Name_Jenkins_final_task_server
+#   gather_facts: False
+#   tasks:
+#     - name: ensure ssh port open
+#       wait_for: 
+#         port: 22
+#         delay: 15
+#         timeout: 30
+#         search_regex: OpenSSH
+#         host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+#       vars:
+#         ansible_connection: local
 
 - name: Install Docker
-  hosts: tag_Name_Jenkins
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: Install Docker
@@ -24,7 +24,7 @@
         state: present
 
 - name: Install Docker-compose
-  hosts: tag_Name_Jenkins
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: Download and Install Docker-compose
@@ -34,7 +34,7 @@
         mode: +x
 
 - name: Start Docker
-  hosts: tag_Name_Jenkins
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: start Docker daemon
@@ -43,7 +43,7 @@
         state: started
 
 - name: Create new linux user
-  hosts: tag_Name_Jenkins
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name:  Create new linux user
@@ -54,7 +54,7 @@
 
 # To solve docker.image problem
 - name: Install docker python module 
-  hosts: tag_Name_Jenkins
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: install docker python module
@@ -64,7 +64,7 @@
           - docker-compose
 
 - name: Start docker containers
-  hosts: tag_Name_Jenkins
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   become_user: alex
   # vars_prompt:

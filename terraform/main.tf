@@ -13,6 +13,7 @@ provider "aws" {
 
 resource "aws_vpc" "myapp-vpc" {
    cidr_block = var.vpc_cidr_block
+   enable_dns_hostnames = true #to show public in dynamic inventory in Ansible
    tags = {
       Name: "${var.env_prefix}-vpc"
    }
