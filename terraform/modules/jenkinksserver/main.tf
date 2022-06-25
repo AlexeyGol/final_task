@@ -42,7 +42,7 @@ data "aws_ami" "latest-amazon-linux-image" {
 
 
 
-resource "aws_instance" "myapp-server" {
+resource "aws_instance" "jenkins-server" {
    ami = data.aws_ami.latest-amazon-linux-image.id
    instance_type = var.instance_type
    subnet_id = var.subnet_id
@@ -50,17 +50,29 @@ resource "aws_instance" "myapp-server" {
    availability_zone = var.avail_zone
    associate_public_ip_address = true
    key_name = "server-key-pair"
+   # user_data = <<-EOF
+   #    #!/bin/bash
+   #       sudo mkdir /jenkins
+   #       sudo mount /dev/xvdh /jenkins
+   # EOF
    tags = {
       Name: "${var.instance_name}-${var.env_prefix}-server"}
-   # user_data = file("${path.module}/entry-script.sh")
 } 
+
+
+resource "aws_volume_attachment" "ebs_attatch" {
+  device_name = "/dev/xvdh"
+  volume_id   = "vol-0315dd36f56f6bd5a"
+  instance_id = aws_instance.jenkins-server.id
+  skip_destroy = true
+}
 
 resource "null_resource" "configure_instanse" {
    triggers = {
-      trigger = aws_instance.myapp-server.public_ip
+      trigger = aws_instance.jenkins-server.public_ip
    }
    provisioner "local-exec" {
       working_dir = var.ansible_work_dir
-      command = "ansible-playbook --inventory ${aws_instance.myapp-server.public_ip}, --private-key ${var.ssh_key_private} --user ec2-user ${var.playbook_file}"
+      command = "ansible-playbook --inventory ${aws_instance.jenkins-server.public_ip}, --private-key ${var.ssh_key_private} --user ec2-user ${var.playbook_file}"
    }  
 }

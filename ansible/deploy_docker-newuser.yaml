@@ -1,17 +1,17 @@
 ---
-# - name: Ensure that SSH connection is possible
-#   hosts: tag_Name_Jenkins_final_task_server
-#   gather_facts: False
-#   tasks:
-#     - name: ensure ssh port open
-#       wait_for: 
-#         port: 22
-#         delay: 15
-#         timeout: 30
-#         search_regex: OpenSSH
-#         host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
-#       vars:
-#         ansible_connection: local
+- name: Ensure that SSH connection is possible
+  hosts: tag_Name_Jenkins_final_task_server
+  gather_facts: False
+  tasks:
+    - name: ensure ssh port open
+      wait_for: 
+        port: 22
+        delay: 15
+        timeout: 30
+        search_regex: OpenSSH
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      vars:
+        ansible_connection: localte
 
 - name: Install Docker
   hosts: tag_Name_Jenkins_final_task_server

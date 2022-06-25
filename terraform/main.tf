@@ -30,7 +30,7 @@ module "myapp-initstaff" {
 
 
 module "Jenkins_master" {
-   source = "./modules/webserver"
+   source = "./modules/jenkinksserver"
    vpc_id = aws_vpc.myapp-vpc.id
    my_ip = var.my_ip
    env_prefix = var.env_prefix
@@ -40,6 +40,6 @@ module "Jenkins_master" {
    instance_name = "Jenkins"
    
    ansible_work_dir = var.ansible_work_dir
-   playbook_file = "deploy_docker-newuser.yaml"
+   playbook_file = "run_Jenkins_server_in_container.yaml"
    ssh_key_private = var.ssh_key_private
 }
