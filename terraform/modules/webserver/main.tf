@@ -54,3 +54,13 @@ resource "aws_instance" "myapp-server" {
       Name: "${var.instance_name}-${var.env_prefix}-server"}
    # user_data = file("${path.module}/entry-script.sh")
 } 
+
+resource "null_resource" "configure_instanse" {
+   triggers = {
+      trigger = aws_instance.myapp-server.public_ip
+   }
+   provisioner "local-exec" {
+      working_dir = var.ansible_work_dir
+      command = "ansible-playbook --inventory ${aws_instance.myapp-server.public_ip}, --private-key ${var.ssh_key_private} --user ec2-user ${var.playbook_file}"
+   }  
+}

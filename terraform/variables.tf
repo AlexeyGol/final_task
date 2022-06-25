@@ -5,3 +5,5 @@ variable env_prefix {}
 variable avail_zone {}
 variable vpc_cidr_block {}
 variable image_name {}
+variable ansible_work_dir {}
+variable ssh_key_private {}

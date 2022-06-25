@@ -1,6 +1,16 @@
+terraform {
+  backend "s3" {
+    bucket = "tf-states-final-task"
+    key    = "devops/finaltask.tfstate"
+    region = "eu-west-2"
+  }
+}
+
 provider "aws" {
    region = "eu-west-2"
 }
+
+
 resource "aws_vpc" "myapp-vpc" {
    cidr_block = var.vpc_cidr_block
    tags = {
@@ -27,4 +37,8 @@ module "Jenkins_master" {
    avail_zone = var.avail_zone
    subnet_id = module.myapp-initstaff.subnet.id
    instance_name = "Jenkins"
+   
+   ansible_work_dir = var.ansible_work_dir
+   playbook_file = "deploy_docker-newuser.yaml"
+   ssh_key_private = var.ssh_key_private
 }

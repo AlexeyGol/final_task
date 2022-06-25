@@ -5,3 +5,6 @@ variable instance_type {}
 variable subnet_id {}
 variable avail_zone {}
 variable instance_name {}
+variable ansible_work_dir {}
+variable playbook_file {}
+variable ssh_key_private {}
