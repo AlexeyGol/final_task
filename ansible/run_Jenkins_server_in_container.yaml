@@ -18,21 +18,11 @@
   tasks:
     - name: create Jenkins directory
       ansible.builtin.file:
-        path: /mnt/jenkins
+        path: /jenkins
         state: directory
         owner: ec2-user
         mode: '0755'
-#to install:  ansible-galaxy collection install ansible.posix
-- name: Mount EBS volume for Jenkins_home data
-  hosts: all
-  become: yes
-  tasks:
-    - name: mount volume
-      ansible.posix.mount:
-        path: mnt/jenkins
-        src: /dev/xvdh
-        fstype: xfs
-        state: present
+
 
 - name: Install Docker
   hosts: all
@@ -83,6 +73,17 @@
         name:
           - docker-py
 
+#to install:  ansible-galaxy collection install ansible.posix
+- name: Mount EBS volume for Jenkins_home data
+  hosts: all
+  become: yes
+  tasks:
+    - name: mount volume
+      ansible.posix.mount:
+        path: /jenkins
+        src: /dev/xvdh
+        fstype: xfs
+        state: mounted
 
 - name: Start Jenkins docker container
   hosts: all
@@ -105,11 +106,10 @@
         #     target: /var/jenkins_home
         #     type: volume
         volumes:
-          - /mnt/jenkins:/var/jenkins_home
+          - /jenkins:/var/jenkins_home
         state: started #present #or started?
+        restart: yes
         recreate: no
 
 
-      
 
-      
