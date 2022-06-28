@@ -22,6 +22,7 @@ pipeline {
             steps {
             sh "printenv"
             sh 'java --version'
+            echo "Helloworld"
             }
        }
     }
