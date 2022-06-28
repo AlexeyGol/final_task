@@ -20,7 +20,7 @@ pipeline {
                 timeout(time: 5, unit: "MINUTES")
             }
             steps {
-            sh "printenv"
+            sh "printenv | grep MYTESTVAR"
             sh 'java --version'
             }
        }
