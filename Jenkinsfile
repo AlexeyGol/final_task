@@ -3,7 +3,7 @@ pipeline {
         dockerfile {
             filename 'Dockerfile_jenkins_agent'
             dir 'build_image'
-            // label 'agent_plus'
+            // label 'put agent name here!'
             args '-v /tmp:/tmp'
         }
     }
@@ -20,8 +20,7 @@ pipeline {
                 timeout(time: 5, unit: "MINUTES")
             }
             steps {
-            sh "mvn -version"
-            sh "mvn clean install"
+            sh "echo $mytestvar"
             sh 'java --version'
             }
        }
