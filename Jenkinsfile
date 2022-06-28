@@ -20,7 +20,7 @@ pipeline {
                 timeout(time: 5, unit: "MINUTES")
             }
             steps {
-            sh "printenv | grep MYTESTVAR"
+            sh "printenv"
             sh 'java --version'
             }
        }
@@ -28,11 +28,15 @@ pipeline {
 }
 
 // good_practice
-// post {
-//     always {
-//         cleanWs()
-//     }
-// }
+post {
+    // always {
+    //     cleanWs()
+    // }
+    failure {
+        echo 'Build failed. Notifying on Telegram'
+        //TG notification
+    }
+}
 
 
  
