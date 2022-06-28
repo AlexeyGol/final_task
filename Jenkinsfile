@@ -28,6 +28,7 @@ pipeline {
        stage("Second stage"){
             steps {
                 echo "This is a test second stage"
+                echo this will break my build
             }
        }
     }
