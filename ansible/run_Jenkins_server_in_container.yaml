@@ -107,9 +107,15 @@
         #     type: volume
         volumes:
           - /jenkins:/var/jenkins_home
+          #to make docker available in jenkins container
+          #for Jenkins to have access - chmod 666 /var/run/docker.sock
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /usr/bin/docker:/usr/bin/docker
         state: started #present #or started?
         restart: yes
         recreate: no
+      tags:
+      - rundocker
 
 
 
