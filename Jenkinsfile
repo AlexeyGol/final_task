@@ -32,9 +32,9 @@ post {
     // always {
     //     cleanWs()
     // }
-    failure {
-        echo 'Build failed. Notifying on Telegram'
-        //TG notification
+    // failure {
+    //     echo 'Build failed. Notifying on Telegram'
+    //     //TG notification
     }
 }
 
