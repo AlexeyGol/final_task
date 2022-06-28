@@ -3,7 +3,7 @@ pipeline {
         dockerfile {
             filename 'Dockerfile_jenkins_agent'
             dir 'build_image'
-            label 'agent_plus'
+            // label 'agent_plus'
             args '-v /tmp:/tmp'
         }
     }
