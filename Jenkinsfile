@@ -28,11 +28,11 @@ pipeline {
 }
 
 // good_practice
-post {
-    always {
-        cleanWs()
-    }
-}
+// post {
+//     always {
+//         cleanWs()
+//     }
+// }
 
 
  
