@@ -23,6 +23,12 @@ pipeline {
             sh "printenv"
             sh 'java --version'
             echo "Helloworld"
+            echo "This is a test build stage"
+            }
+       }
+       stage("Second stage"){
+            steps {
+                
             }
        }
     }
