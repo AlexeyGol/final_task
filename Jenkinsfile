@@ -35,7 +35,7 @@ post {
     // failure {
     //     echo 'Build failed. Notifying on Telegram'
     //     //TG notification
-    }
+    // }
 }
 
 
