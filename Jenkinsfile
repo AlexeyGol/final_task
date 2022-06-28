@@ -28,7 +28,7 @@ pipeline {
 }
 
 // good_practice
-post {
+// post {
     // always {
     //     cleanWs()
     // }
@@ -36,7 +36,7 @@ post {
     //     echo 'Build failed. Notifying on Telegram'
     //     //TG notification
     // }
-}
+// }
 
 
  
