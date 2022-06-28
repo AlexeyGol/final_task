@@ -20,7 +20,7 @@ pipeline {
                 timeout(time: 5, unit: "MINUTES")
             }
             steps {
-            sh "echo ${env.MYTESTVAR}"
+            echo "${env.MYTESTVAR}"
             sh 'java --version'
             }
        }
