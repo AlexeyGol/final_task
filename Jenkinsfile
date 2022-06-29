@@ -5,6 +5,7 @@ pipeline {
             dir 'build_image'
             // label 'put agent name here!'
             args '-v /tmp:/tmp'
+            args '-v /root/.m2:/root/.m2'
         }
     }
     // // should be replaced with AWS roles?
@@ -20,9 +21,7 @@ pipeline {
                 timeout(time: 5, unit: "MINUTES")
             }
             steps {
-            sh "printenv"
-            sh 'java --version'
-            echo "Helloworld"
+            sh 'mvn -B -DskipTests clean package'
             }
        }
        stage("Second stage"){
