@@ -21,7 +21,7 @@ pipeline {
                 timeout(time: 5, unit: "MINUTES")
             }
             steps {
-            sh 'mvn -B -DskipTests clean package'
+            sh 'mvn -B -f app/pom.xml clean package'
             }
        }
        stage("Second stage"){
