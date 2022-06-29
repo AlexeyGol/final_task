@@ -42,4 +42,5 @@ module "Jenkins_master" {
    ansible_work_dir = var.ansible_work_dir
    playbook_file = "run_Jenkins_server_in_container.yaml"
    ssh_key_private = var.ssh_key_private
+   depends_on = [module.myapp-initstaff.internet_gateway]
 }

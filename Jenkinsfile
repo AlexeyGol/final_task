@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage("Build") {
             options {
-                timeout(time: 5, unit: "MINUTES")
+                timeout(time: 20, unit: "MINUTES")
             }
             steps {
             sh 'mvn -B -f app/pom.xml clean package'
