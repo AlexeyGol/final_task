@@ -8,24 +8,62 @@ resource "aws_security_group" "myapp-sg" {
      protocol = "tcp"
      to_port = 22
    }
-     ingress {
-     cidr_blocks = ["0.0.0.0/0"]
-     from_port = 8080
-     protocol = "tcp"
-     to_port = 8088
+
+   ingress {
+   cidr_blocks = ["0.0.0.0/0"]
+   from_port = 8080
+   protocol = "tcp"
+   to_port = 8080
+   }
+   ingress {
+   cidr_blocks = ["0.0.0.0/0"]
+   from_port = 50000
+   protocol = "tcp"
+   to_port = 50000
    }
 
-     egress {
-     cidr_blocks = ["0.0.0.0/0"]
-     from_port = 0
-     protocol = "-1"
-     to_port = 0
-     prefix_list_ids = []
+   egress {
+   cidr_blocks = ["0.0.0.0/0"]
+   from_port = 0
+   protocol = "-1"
+   to_port = 0
+   prefix_list_ids = []
    }
    tags = {
       Name: "${var.env_prefix}-sg"
    }
 }
+
+resource "aws_security_group" "jenkins-node-sg" {
+   name = "jenkins-node-sg"
+   vpc_id = var.vpc_id
+
+   ingress {
+     cidr_blocks = ["0.0.0.0/0"]
+     from_port = 22
+     protocol = "tcp"
+     to_port = 22
+   }
+
+   ingress {
+   cidr_blocks = ["0.0.0.0/0"]
+   from_port = 8080
+   protocol = "tcp"
+   to_port = 8080
+   }
+
+   egress {
+   cidr_blocks = ["0.0.0.0/0"]
+   from_port = 0
+   protocol = "-1"
+   to_port = 0
+   prefix_list_ids = []
+   }
+   tags = {
+      Name: "jenkins-node-${var.env_prefix}-sg"
+   }
+}
+
 
 data "aws_ami" "latest-amazon-linux-image" {
    most_recent = true
@@ -50,6 +88,8 @@ resource "aws_instance" "jenkins-server" {
    availability_zone = var.avail_zone
    associate_public_ip_address = true
    key_name = "server-key-pair"
+   #assign role to be able to create slave nodes
+   iam_instance_profile = "jenkins_aws_role"
    # user_data = <<-EOF
    #    #!/bin/bash
    #       sudo mkdir /jenkins
@@ -76,3 +116,4 @@ resource "null_resource" "configure_instanse" {
       command = "ansible-playbook --inventory ${aws_instance.jenkins-server.public_ip}, --private-key ${var.ssh_key_private} --user ec2-user ${var.playbook_file}"
    }  
 }
+

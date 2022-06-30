@@ -21,7 +21,7 @@ pipeline {
                 timeout(time: 20, unit: "MINUTES")
             }
             steps {
-            sh 'mvn -B -f app/pom.xml clean package'
+            sh 'app/mvnw package'
             }
        }
        stage("Second stage"){
