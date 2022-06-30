@@ -17,7 +17,7 @@ pipeline {
     
     stages {
         stage("Build") {
-            envoronment {
+            environment {
                 MAVEN_CONFIG=/root.m2
             }
             options {
