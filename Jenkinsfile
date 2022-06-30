@@ -22,7 +22,7 @@ pipeline {
                 sh 'unset MAVEN_CONFIG'
             }
         }
-        stage("Test") {
+        stage("Build") {
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
@@ -32,10 +32,11 @@ pipeline {
                 sh 'mvn package -f ./app/pom.xml -X'
             }
        }
-       stage("Build"){
+       stage("Test"){
             steps {
                 echo "This is a test second stage"
                 echo "$BUILD_TAG"
+                sh 'ls -lah ./app'
             }
        }
     }
