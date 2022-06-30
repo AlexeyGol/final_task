@@ -21,6 +21,7 @@ pipeline {
                 timeout(time: 20, unit: "MINUTES")
             }
             steps {
+            sh 'chmod +x app/mvnw'
             sh 'app/mvnw package'
             }
        }
