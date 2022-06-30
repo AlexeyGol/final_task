@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'mvn -N io.takari:maven:wrapper'
-                sh 'mvn test -f ./app/mvnw -X'
+                sh 'mvn test -f ./app/pom.xml -X'
             }
        }
        stage("Second stage"){
