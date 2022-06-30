@@ -18,9 +18,8 @@ pipeline {
     stages {
         stage("Env settings"){
             steps {
-                // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
+                sh 'git clone -n https://github.com/takari/maven-wrapper.git'
                 sh 'unset MAVEN_CONFIG'
-                sh 'java --version'
             }
         }
         stage("Build") {
