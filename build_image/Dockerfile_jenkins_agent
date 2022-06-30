@@ -1,3 +1,4 @@
-FROM maven
+FROM jenkins/jnlp-agent-maven
 
 ENV MYTESTVAR="Hello from docker"
+ENV MAVEN_CONFIG="/root.m2"
