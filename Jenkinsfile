@@ -5,7 +5,7 @@ pipeline {
             dir 'build_image'
             // label 'put agent name here!'
             args '-v /tmp:/tmp'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /.m2:/.m2'
         }
     }
     // // should be replaced with AWS roles?
@@ -22,7 +22,7 @@ pipeline {
                 sh 'unset MAVEN_CONFIG'
             }
         }
-        stage("Build") {
+        stage("Test") {
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
@@ -32,7 +32,7 @@ pipeline {
                 sh 'mvn test -f ./app/pom.xml -X'
             }
        }
-       stage("Second stage"){
+       stage("Build"){
             steps {
                 echo "This is a test second stage"
                 echo "$BUILD_TAG"
