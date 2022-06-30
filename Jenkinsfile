@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh 'unset MAVEN_CONFIG && env && ./mvnw effective-settings'
                 sh 'git clone -n https://github.com/takari/maven-wrapper.git'
-            
+            }
         }
         stage("Build") {
             options {
