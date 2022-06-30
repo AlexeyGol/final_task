@@ -29,8 +29,7 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'mvn -N io.takari:maven:wrapper'
-                sh 'chmod +x ./app/mvnw'
-                sh 'mvnw package -f ./app/mvnw -X'
+                sh 'mvn test -f ./app/mvnw -X'
             }
        }
        stage("Second stage"){
