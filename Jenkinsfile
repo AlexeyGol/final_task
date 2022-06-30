@@ -22,6 +22,7 @@ pipeline {
             }
             steps {
             sh 'pwd'
+            sh 'ls -lah ./app/mvnw'
             sh 'chmod +x ./app/mvnw'
             sh './app/mvnw package'
             }
