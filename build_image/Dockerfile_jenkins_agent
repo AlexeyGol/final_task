@@ -1,4 +1,4 @@
 FROM jenkins/jnlp-agent-maven
-CMD git 'https://github.com/takari/maven-wrapper.git'
+RUN git clone -n https://github.com/takari/maven-wrapper.git
 CMD unset MAVEN_CONFIG && env && ./mvnw effective-settings
 ENV MYTESTVAR="Hello from docker"
