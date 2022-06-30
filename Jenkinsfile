@@ -17,6 +17,9 @@ pipeline {
     
     stages {
         stage("Build") {
+            envoronment {
+                MAVEN_CONFIG=/root.m2
+            }
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
