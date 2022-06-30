@@ -17,17 +17,19 @@ pipeline {
     
     stages {
         stage(Env settings){
-            sh 'unset MAVEN_CONFIG && env && ./mvnw effective-settings'
-            sh 'git clone -n https://github.com/takari/maven-wrapper.git'
+            steps {
+                sh 'unset MAVEN_CONFIG && env && ./mvnw effective-settings'
+                sh 'git clone -n https://github.com/takari/maven-wrapper.git'
+            
         }
         stage("Build") {
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
             steps {
-            sh 'pwd'
-            sh 'mvn -N io.takari:maven:wrapper'
-            // sh 'chmod +x ./app/mvnw'
+                sh 'pwd'
+                sh 'mvn -N io.takari:maven:wrapper'
+                // sh 'chmod +x ./app/mvnw'
             sh 'mvn package -f ./app/pom.xml -X'
             }
        }
