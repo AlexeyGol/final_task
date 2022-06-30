@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage("Env settings"){
             steps {
-                sh 'unset MAVEN_CONFIG && env && ./mvnw effective-settings'
+                sh 'unset MAVEN_CONFIG && env && ./app/mvnw effective-settings'
                 sh 'git clone -n https://github.com/takari/maven-wrapper.git'
             }
         }
