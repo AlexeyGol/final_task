@@ -25,6 +25,7 @@ pipeline {
             sh 'ls -lah'
             sh 'ls -lah ./app/mvnw'
             sh 'ls -lah ./app/.mvn/wrapper'
+            sh 'mvn -N io.takari:maven:wrapper'
             sh 'chmod +x ./app/mvnw'
             sh './app/mvnw package'
 
