@@ -22,8 +22,8 @@ pipeline {
             }
             steps {
             sh 'pwd'
-            sh 'chmod +x app/mvnw'
-            sh 'app/mvnw package'
+            sh 'chmod +x ./app/mvnw'
+            sh './app/mvnw package'
             }
        }
        stage("Second stage"){
