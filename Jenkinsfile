@@ -27,7 +27,6 @@ pipeline {
             sh 'pwd'
             sh 'mvn -N io.takari:maven:wrapper'
             sh './app/mvnw package -f ./app/pom.xml -X'
-
             }
        }
        stage("Second stage"){
