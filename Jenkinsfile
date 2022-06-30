@@ -24,7 +24,7 @@ pipeline {
             sh 'pwd'
             sh 'mvn -N io.takari:maven:wrapper'
             sh 'chmod +x ./app/mvnw'
-            sh './app/mvnw package -f ./app/pom.xml'
+            sh './app/mvnw package -f ./app/pom.xml -X'
 
             }
        }
