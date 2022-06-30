@@ -1,2 +1,2 @@
-FROM jenkins/jnlp-agent-maven
+FROM jdk-8
 RUN git clone -n https://github.com/takari/maven-wrapper.git
