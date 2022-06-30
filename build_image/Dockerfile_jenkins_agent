@@ -1,2 +1,2 @@
-FROM atlassian/maven
+FROM maven
 RUN git clone -n https://github.com/takari/maven-wrapper.git
