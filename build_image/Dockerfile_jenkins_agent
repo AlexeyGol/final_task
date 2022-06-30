@@ -1,4 +1,5 @@
 FROM maven
-RUN --mount=type=cache,target=/root/.m2,rw ./mvnw -B package
+
+
 
 
