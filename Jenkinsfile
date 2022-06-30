@@ -22,21 +22,22 @@ pipeline {
                 sh 'unset MAVEN_CONFIG'
             }
         }
-        stage("Build") {
+        stage("Test code") {
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
             steps {
                 sh 'pwd'
                 sh 'mvn -N io.takari:maven:wrapper'
-                sh 'mvn package -f ./app/pom.xml -X'
+                sh 'mvn test -f ./app/pom.xml -X'
             }
        }
        stage("Test"){
             steps {
                 echo "This is a test second stage"
                 echo "$BUILD_TAG"
-                sh 'ls -lah ./app'
+                sh 'mvn package -f ./app/pom.xml -X'
+                sh 'ls -lah ./app/target'
             }
        }
     }
