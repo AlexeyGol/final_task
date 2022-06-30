@@ -1,3 +1,2 @@
 FROM jenkins/jnlp-agent-maven
 RUN git clone -n https://github.com/takari/maven-wrapper.git
-RUN ./mvnw effective-settings
