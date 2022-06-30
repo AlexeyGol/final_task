@@ -36,7 +36,7 @@ pipeline {
             steps {
                 echo "This is a test second stage"
                 echo "$BUILD_TAG"
-                sh 'mvn package -f ./app/pom.xml -X'
+                sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
                 sh 'ls -lah ./app/target'
             }
        }
