@@ -1,2 +1,2 @@
-FROM pizzasteve/jdk8-maven-npm-yarn
+FROM atlassian/maven
 RUN git clone -n https://github.com/takari/maven-wrapper.git
