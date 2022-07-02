@@ -1,5 +1,6 @@
 FROM maven
 ENV DOCKER_HOST=unix:///var/run/docker.sock
+RUN curl -fsSL https://get.docker.com | sh
 
 
 
