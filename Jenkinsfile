@@ -1,3 +1,4 @@
+//or mvn clean package >> mvn test
 pipeline {
     agent {
         dockerfile {
@@ -18,8 +19,10 @@ pipeline {
     stages {
         stage("Env settings"){
             steps {
+                echo "########### Preparing environment ###########"
                 // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
                 sh 'unset MAVEN_CONFIG'
+                }
             }
         }
         stage("Test code") {
@@ -27,19 +30,91 @@ pipeline {
                 timeout(time: 20, unit: "MINUTES")
             }
             steps {
+                echo "########### Testing code ###########"
                 sh 'pwd'
                 sh 'mvn -N io.takari:maven:wrapper'
                 sh 'mvn test -f ./app/pom.xml -X'
             }
-       }
-       stage("Test"){
+        }
+        stage("Package"){
             steps {
-                echo "This is a test second stage"
+                echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
                 sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
-                sh 'ls -lah ./app/target'
+                sh 'ls -lah ./app/target *.jar'
             }
-       }
+        } 
+
+        stage("Create Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Creating Docker image###########"
+                sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} ./app/target  --build-arg JARNAME="petclinic-*"
+                sh 'docker image ls -a'
+            }
+        }
+       
+        // stage("Push Docker image"){
+        //     //Plugin - Build Timestamp for versioning
+        //     steps {
+        //         echo "###########Pushing Docker image to the registry###########"
+        //         docker login 
+        //         docker tag getting-started YOUR-USER-NAME/getting-started
+        //         docker push alexego/final_task
+        //     }
+        // }
+
+        
+
+        
+
+
+        // stage("Create dev server"){
+        //     //role instead of environment?
+        //     environment {
+        //         AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
+        //         AWS_SECRET_ACCESS_KEY = ('aws_secret_access_key_for_jenkins')
+        //         TF_VAR_my_ip = "185.220.94.81/32"
+        //     }
+        //     steps {
+        //        script {
+        //             dir('terraform') {
+        //                 sh 'terraform init'
+        //                 sh 'terraform apply --target <put module here> --auto-approve'
+        //                 DEV_IP = sh(
+        //                     script: "terraform output Jenkins_public_ip",
+        //                     returnStdout: true
+        //                 ).trim
+        //             }
+        //        }
+        //     }
+        // }
+        // stage("Deploy to dev") {
+        //     steps {
+        //         script {
+        //             // wait for the server to boot
+        //             sleep(time: 60, unit: "SECONDS")
+        //             echo 'deploy to dev server'
+        //             def dev_server = "ec2-user@${DEV_IP}"
+
+        //             sshagent(['server-key-pair']) {
+        //                 sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
+        //                 // pull image from ECR
+        //                 // run image
+                            //delete previous container
+                            // docker login
+                            // docker run alexego/final_task:${BUILD_TIMESTAMP}
+        //             }
+        //         }
+        //     }
+        // }
+        // stage("Test"){
+        //     //Plugin - Build Timestamp for versioning
+        //     steps {
+        //         echo "###########Creating Docker image###########"
+        //         curl http://${DEV_IP}:8080
+        //     }
+        // }
     }
 }
 
