@@ -62,8 +62,8 @@ pipeline {
                 sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
                 sh 'ls -lah ./app/target'
             }
-        } 
-
+            } 
+        }
         // stage("Create Docker image"){
         //     //Plugin - Build Timestamp for versioning
         //     steps {
