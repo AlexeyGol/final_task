@@ -1,4 +1,8 @@
 FROM ubuntu
+RUN curl -o rootless-install.sh -fsSL https://get.docker.com/rootless
+RUN sh rootless-install.sh
+RUN export PATH=$HOME/bin:$PATH
+RUN export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 # RUN apt-get update && \
 #     apt-get -qy full-upgrade && \
 #     apt-get install -qy curl && \
