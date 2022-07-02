@@ -56,8 +56,9 @@ pipeline {
                 echo "###########Creating Docker image###########"
                 //
                 sh 'cd app/target'
+                sh 'ls -lah'
                 sh "docker build \
-                    -t petclinic:${BUILD_TIMESTAMP} \
+                    -t final_task_petclinic:${BUILD_TIMESTAMP} \
                     --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
                 sh 'docker image ls -a'
             }
