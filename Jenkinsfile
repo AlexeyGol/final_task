@@ -45,14 +45,14 @@ pipeline {
             }
         } 
 
-        stage("Create Docker image"){
-            //Plugin - Build Timestamp for versioning
-            steps {
-                echo "###########Creating Docker image###########"
-                sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} ./app/target  --build-arg JARNAME="petclinic-*"
-                sh 'docker image ls -a'
-            }
-        }
+        // stage("Create Docker image"){
+        //     //Plugin - Build Timestamp for versioning
+        //     steps {
+        //         echo "###########Creating Docker image###########"
+        //         sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} ./app/target  --build-arg JARNAME="petclinic-*"
+        //         sh 'docker image ls -a'
+        //     }
+        // }
        
         // stage("Push Docker image"){
         //     //Plugin - Build Timestamp for versioning
