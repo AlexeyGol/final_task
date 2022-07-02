@@ -47,24 +47,26 @@ pipeline {
                 sh 'pwd'
                 sh 'mvn -N io.takari:maven:wrapper'
                 //can add -X flag for debug mode
-                sh 'mvn test -f ./app/pom.xml -e -X '
-            }
-        }
-        stage('Package'){
-            // agent {
-            //     docker { 
-            //         image 'maven'
-            //         reuseNode true
-            //     }
-            steps {
-                echo "########### Package jar ###########"
-                echo "$BUILD_TAG"
-                echo "mvn --version"
-                sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
+                sh 'mvn clean dependency:copy-dependencies package -X'
                 sh 'ls -lah ./app/target'
+                // sh 'mvn test -f ./app/pom.xml -e -X '
             }
-            } 
         }
+        // stage('Package'){
+        //     // agent {
+        //     //     docker { 
+        //     //         image 'maven'
+        //     //         reuseNode true
+        //     //     }
+        //     steps {
+        //         echo "########### Package jar ###########"
+        //         echo "$BUILD_TAG"
+        //         echo "mvn --version"
+        //         sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
+        //         sh 'ls -lah ./app/target'
+        //     }
+        //     } 
+        // }
         // stage("Create Docker image"){
         //     //Plugin - Build Timestamp for versioning
         //     steps {
