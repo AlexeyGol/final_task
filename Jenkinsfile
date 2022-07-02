@@ -30,10 +30,10 @@ pipeline {
         stage('TESTDOCKER'){
             steps {
                 echo "########### TESTDOCKER ###########"
-                sh 'docker run hello-world'
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
+                sh 'docker run hello-world'
             }
             }
         
