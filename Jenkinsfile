@@ -37,7 +37,8 @@ pipeline {
                 echo "########### Testing code ###########"
                 sh 'pwd'
                 sh 'mvn -N io.takari:maven:wrapper'
-                sh 'mvn test -f ./app/pom.xml -X'
+                //can add -X flag for debug mode
+                sh 'mvn test -f ./app/pom.xml'
             }
         }
         stage('Package'){
@@ -53,8 +54,8 @@ pipeline {
             //Plugin - Build Timestamp for versioning
             steps {
                 echo "###########Creating Docker image###########"
-                //-f ./Dockerfile
-                sh "docker build -t petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ./app/target"
+                //
+                sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' app/target"
                 sh 'docker image ls -a'
             }
         }
