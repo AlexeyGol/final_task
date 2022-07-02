@@ -31,9 +31,9 @@ pipeline {
         stage('TESTDOCKER'){
             steps {
                 echo "########### TESTDOCKER ###########"
-                script {
-                    dockerImage = "alexego/final_task:$BUILD_NUMBER"
-                }
+                // script {
+                //     dockerImage = "alexego/final_task:$BUILD_NUMBER"
+                // }
                 sh 'docker run hello-world'
             }
             }
