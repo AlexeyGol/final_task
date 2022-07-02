@@ -26,7 +26,7 @@ pipeline {
     // }
     
     stages {
-        agent any
+        
         stage('TESTDOCKER'){
             steps {
                 echo "########### TESTDOCKER ###########"
