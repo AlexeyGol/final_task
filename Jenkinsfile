@@ -115,8 +115,8 @@ pipeline {
         //         curl http://${DEV_IP}:8080
         //     }
         // }
-    }
 }
+
 
 // good_practice
 // post {
