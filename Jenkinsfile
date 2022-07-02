@@ -11,7 +11,7 @@ pipeline {
             //to share docker commands to the agent
             args '-v /usr/bin/docker:/usr/bin/docker'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
-            args '-v /var/lib/jenkins:/var/lib/jenkins'
+            // args '-v /var/lib/jenkins:/var/lib/jenkins'
             //to share docker commands to the agent v2
             // args '-e DOCKER_HOST=unix:///var/run/docker.sock'
             args '--privileged'
