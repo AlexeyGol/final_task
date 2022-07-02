@@ -41,7 +41,7 @@ pipeline {
                 echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
                 sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
-                sh 'ls -lah ./app/target *.jar'
+                sh 'ls -lah ./app/target | grep *.jar'
             }
         } 
 
