@@ -12,7 +12,7 @@ pipeline {
             args '-v /usr/bin/docker:/usr/bin/docker'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             //to share docker commands to the agent v2
-            args '-e DOCKER_HOST=unix:///var/run/docker.sock'
+            // args '-e DOCKER_HOST=unix:///var/run/docker.sock'
             args '--privileged'
             reuseNode true
         }

@@ -1,10 +1,10 @@
 FROM maven
-# ENV DOCKER_HOST=unix:///var/run/docker.sock
 RUN apt-get update && \
     apt-get -qy full-upgrade && \
     apt-get install -qy curl && \
     apt-get install -qy curl && \
     curl -sSL https://get.docker.com/ | sh
+ENV DOCKER_HOST=unix:///var/run/docker.sock
 
 
 
