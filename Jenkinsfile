@@ -1,23 +1,24 @@
 //or mvn clean package >> mvn test
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile_jenkins_agent'
-            dir 'build_image'
-            // label 'put agent name here!'
-            args '-v /tmp:/tmp'
-            // to do not download every time
-            args '-v $HOME/.m2:/root/.m2'
-            //to share docker commands to the agent
-            args '-v /usr/bin/docker:/usr/bin/docker'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-            // args '-v /var/lib/jenkins:/var/lib/jenkins'
-            //to share docker commands to the agent v2
-            // args '-e DOCKER_HOST=unix:///var/run/docker.sock'
-            args '--privileged'
-            reuseNode true
-        }
-    }
+    agent any
+        // {
+        // dockerfile {
+        //     filename 'Dockerfile_jenkins_agent'
+        //     dir 'build_image'
+        //     // label 'put agent name here!'
+        //     args '-v /tmp:/tmp'
+        //     // to do not download every time
+        //     args '-v $HOME/.m2:/root/.m2'
+        //     //to share docker commands to the agent
+        //     args '-v /usr/bin/docker:/usr/bin/docker'
+        //     args '-v /var/run/docker.sock:/var/run/docker.sock'
+        //     // args '-v /var/lib/jenkins:/var/lib/jenkins'
+        //     //to share docker commands to the agent v2
+        //     // args '-e DOCKER_HOST=unix:///var/run/docker.sock'
+        //     args '--privileged'
+        //     reuseNode true
+        // }
+    // }
     // // should be replaced with AWS roles?
     // environment {
     //     #env variables to access aws
