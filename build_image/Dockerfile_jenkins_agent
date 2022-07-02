@@ -5,6 +5,6 @@ RUN apt-get update && \
     apt-get install -qy curl && \
     curl -sSL https://get.docker.com/ | sh
 # ENV DOCKER_HOST=unix:///var/run/docker.sock
-RUN systemctl start docker
+RUN sudo service docker start
 
 
