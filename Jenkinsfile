@@ -11,6 +11,7 @@ pipeline {
             //to share docker commands to the agent
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             args '-v /usr/bin/docker:/usr/bin/docker'
+            reuseNode true
         }
     }
     // // should be replaced with AWS roles?
@@ -57,9 +58,7 @@ pipeline {
                 //
                 sh 'cd app/target'
                 sh 'ls -lah'
-                sh "docker build \
-                    -t final_task_petclinic:${BUILD_TIMESTAMP} \
-                    --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+                sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
                 sh 'docker image ls -a'
             }
         }
@@ -69,6 +68,9 @@ pipeline {
         //     steps {
         //         echo "###########Pushing Docker image to the registry###########"
         //         docker login 
+        // withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        //   sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+        //   sh 'docker push shanem/spring-petclinic:latest'
         //         docker tag getting-started YOUR-USER-NAME/getting-started
         //         docker push alexego/final_task
         //     }
