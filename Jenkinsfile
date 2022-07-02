@@ -51,14 +51,15 @@ pipeline {
         //     }
         // }
         stage('Package'){
-            agent {
-                docker { 
-                    image 'maven'
-                    reuseNode true
-                }
+            // agent {
+            //     docker { 
+            //         image 'maven'
+            //         reuseNode true
+            //     }
             steps {
                 echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
+                echo "mvn --version"
                 sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
                 sh 'ls -lah ./app/target'
             }
@@ -141,7 +142,7 @@ pipeline {
         //     }
         // }
     }
-
+    
 
 // good_practice
     post {
