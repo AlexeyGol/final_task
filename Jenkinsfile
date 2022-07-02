@@ -17,7 +17,7 @@ pipeline {
     // }
     
     stages {
-        stage("Env settings"){
+        stage('Env settings'){
             steps {
                 echo "########### Preparing environment ###########"
                 // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
@@ -25,7 +25,7 @@ pipeline {
                 }
             }
         }
-        stage("Test code"){
+        stage('Test code'){
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
@@ -36,7 +36,7 @@ pipeline {
                 sh 'mvn test -f ./app/pom.xml -X'
             }
         }
-        stage("Package"){
+        stage('Package'){
             steps {
                 echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
@@ -119,18 +119,18 @@ pipeline {
 
 
 // good_practice
-post {
-    always {
-        cleanWs()
+    post {
+        always {
+            cleanWs()
+        }
+        failure {
+            echo 'Build failed. Notifying on Telegram'
+            //TG notification
+        }
+        success {
+            echo 'Build succeeded'
+        }
     }
-    failure {
-        echo 'Build failed. Notifying on Telegram'
-        //TG notification
-    }
-    success {
-        echo 'Build succeeded'
-    }
-}
 
 
  
