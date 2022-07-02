@@ -31,7 +31,7 @@ pipeline {
             steps {
                 echo "########### TESTDOCKER ###########"
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = "alexego/final_task:$BUILD_NUMBER"
                 }
                 sh 'docker run hello-world'
             }
