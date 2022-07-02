@@ -45,9 +45,9 @@ pipeline {
             steps {
                 echo "########### Testing code ###########"
                 sh 'pwd'
-                sh 'mvn -N io.takari:maven:wrapper'
+                // sh 'mvn -N io.takari:maven:wrapper'
                 //can add -X flag for debug mode
-                sh './app/mvn clean dependency:copy-dependencies package -X'
+                sh 'mvn clean dependency:copy-dependencies package -f ./app/pom.xml -X'
                 sh 'ls -lah ./app/target'
                 // sh 'mvn test -f ./app/pom.xml -e -X '
             }
