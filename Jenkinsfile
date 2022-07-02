@@ -52,7 +52,10 @@ pipeline {
         // }
         stage('Package'){
             agent {
-                docker { image 'maven' }
+                docker { 
+                    image 'maven'
+                    reuseNode true
+                }
             steps {
                 echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
