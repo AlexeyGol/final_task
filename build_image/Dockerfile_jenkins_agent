@@ -1,5 +1,5 @@
 FROM alpine
-RUN apk update && \ apk install -y curl && curl -sSL https://get.docker.com/ | sh
+RUN apk update && \ apk add curl && curl -sSL https://get.docker.com/ | sh
 
 # RUN apt-get update && \
 #     apt-get -qy full-upgrade && \
