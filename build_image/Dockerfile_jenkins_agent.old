@@ -1,0 +1,8 @@
+FROM maven
+CMD sudo groupadd docker
+CMD sudo usermod -a -G docker jenkins
+CMD sudo chkconfig docker on
+CMD su - jenkins
+
+
+
