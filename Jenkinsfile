@@ -41,7 +41,8 @@ pipeline {
                 echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
                 sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
-                sh 'ls -lah ./app/target | grep *.jar'
+                sh 'ls -lah ./app/target'
+                sh "ls -lah ./app/target *.jar"
             }
         } 
 
@@ -120,9 +121,9 @@ pipeline {
 
 // good_practice
     post {
-        always {
-            cleanWs()
-        }
+        // always {
+        //     cleanWs()
+        // }
         failure {
             echo 'Build failed. Notifying on Telegram'
             //TG notification
