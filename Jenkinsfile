@@ -47,7 +47,7 @@ pipeline {
                 sh 'pwd'
                 // sh 'mvn -N io.takari:maven:wrapper'
                 //can add -X flag for debug mode
-                sh 'mvn test -f ./app/pom.xml -e '
+                sh 'mvn test -f ./app/pom.xml -e -X '
             }
         }
         // stage('Package'){
