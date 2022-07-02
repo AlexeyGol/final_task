@@ -131,6 +131,4 @@ pipeline {
             echo 'Build succeeded'
         }
     }
-
-
- 
+}
