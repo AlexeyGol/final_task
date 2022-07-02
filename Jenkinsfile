@@ -38,26 +38,26 @@ pipeline {
         //         }
         //     }
         
-        stage('Test code'){
-            options {
-                timeout(time: 20, unit: "MINUTES")
-            }
-            steps {
-                echo "########### Testing code ###########"
-                sh 'pwd'
-                // sh 'mvn -N io.takari:maven:wrapper'
-                //can add -X flag for debug mode
-                sh 'mvn test -f ./app/pom.xml -e -X '
-            }
-        }
-        // stage('Package'){
-        //     steps {
-        //         echo "########### Package jar ###########"
-        //         echo "$BUILD_TAG"
-        //         sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
-        //         sh 'ls -lah ./app/target'
+        // stage('Test code'){
+        //     options {
+        //         timeout(time: 20, unit: "MINUTES")
         //     }
-        // } 
+        //     steps {
+        //         echo "########### Testing code ###########"
+        //         sh 'pwd'
+        //         // sh 'mvn -N io.takari:maven:wrapper'
+        //         //can add -X flag for debug mode
+        //         sh 'mvn test -f ./app/pom.xml -e -X '
+        //     }
+        // }
+        stage('Package'){
+            steps {
+                echo "########### Package jar ###########"
+                echo "$BUILD_TAG"
+                sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
+                sh 'ls -lah ./app/target'
+            }
+        } 
 
         // stage("Create Docker image"){
         //     //Plugin - Build Timestamp for versioning
