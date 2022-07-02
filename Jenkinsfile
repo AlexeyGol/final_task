@@ -119,15 +119,18 @@ pipeline {
 
 
 // good_practice
-// post {
-    // always {
-    //     cleanWs()
-    // }
-    // failure {
-    //     echo 'Build failed. Notifying on Telegram'
-    //     //TG notification
-    // }
-// }
+post {
+    always {
+        cleanWs()
+    }
+    failure {
+        echo 'Build failed. Notifying on Telegram'
+        //TG notification
+    }
+    success {
+        echo 'Build succeeded'
+    }
+}
 
 
  
