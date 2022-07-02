@@ -122,6 +122,7 @@
           - /usr/bin/docker:/usr/bin/docker
         state: started #present #or started?
         restart: yes
+        # add this for docker--env DOCKER_HOST=unix:///var/run/docker.sock \
         recreate: no
       tags:
       - rundocker

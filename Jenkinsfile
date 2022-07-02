@@ -11,6 +11,8 @@ pipeline {
             //to share docker commands to the agent
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             args '-v /usr/bin/docker:/usr/bin/docker'
+            //to share docker commands to the agent v2
+            args '-env DOCKER_HOST=unix:///var/run/docker.sock'
             reuseNode true
         }
     }
@@ -30,18 +32,18 @@ pipeline {
                 }
             }
         
-        stage('Test code'){
-            options {
-                timeout(time: 20, unit: "MINUTES")
-            }
-            steps {
-                echo "########### Testing code ###########"
-                sh 'pwd'
-                sh 'mvn -N io.takari:maven:wrapper'
-                //can add -X flag for debug mode
-                sh 'mvn test -f ./app/pom.xml'
-            }
-        }
+        // stage('Test code'){
+        //     options {
+        //         timeout(time: 20, unit: "MINUTES")
+        //     }
+        //     steps {
+        //         echo "########### Testing code ###########"
+        //         sh 'pwd'
+        //         sh 'mvn -N io.takari:maven:wrapper'
+        //         //can add -X flag for debug mode
+        //         sh 'mvn test -f ./app/pom.xml'
+        //     }
+        // }
         stage('Package'){
             steps {
                 echo "########### Package jar ###########"

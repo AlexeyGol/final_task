@@ -28,7 +28,7 @@ sudo chown -R ec2-user:ec2-user /var/jenkins
 sudo chmod -R 770 /var/jenkins
 echo "******** Creating Jenkins Workspace********"
 while [[ -z $(/sbin/service docker status | grep " is running...") &&  $sleep_counter -lt 20 ]]; do sleep 1; ((sleep_counter++)); echo "Waiting for docker $sleep_counter seconds - $(/sbin/service docker status)"; done
-
+whoami
 
 
 
