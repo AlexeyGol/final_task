@@ -29,7 +29,7 @@ pipeline {
                 echo "########### Preparing environment ###########"
                 // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
                 sh 'unset MAVEN_CONFIG'
-                printenv
+                sh 'printenv'
                 }
             }
         
