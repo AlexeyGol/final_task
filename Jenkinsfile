@@ -13,6 +13,7 @@ pipeline {
             args '-v /usr/bin/docker:/usr/bin/docker'
             //to share docker commands to the agent v2
             args '-e DOCKER_HOST=unix:///var/run/docker.sock'
+            args '--privileged'
             reuseNode true
         }
     }
@@ -59,7 +60,6 @@ pipeline {
             steps {
                 echo "###########Creating Docker image###########"
                 //
-                sh 'cd app/target'
                 sh 'ls -lah'
                 sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
                 sh 'docker image ls -a'

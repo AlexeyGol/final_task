@@ -1,8 +1,5 @@
 FROM maven
 ENV DOCKER_HOST=unix:///var/run/docker.sock
-CMD sudo groupadd docker
-CMD sudo usermod -a -G docker jenkins
-CMD sudo chkconfig docker on
-CMD su - jenkins
+
 
 

@@ -124,6 +124,7 @@
         restart: yes
         # add this for docker--env DOCKER_HOST=unix:///var/run/docker.sock \
         recreate: no
+        privileged: yes #for Docker commands inside
       tags:
       - rundocker
 
