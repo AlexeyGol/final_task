@@ -4,7 +4,6 @@ RUN apt-get update && \
     apt-get install -qy curl && \
     apt-get install -qy curl && \
     curl -sSL https://get.docker.com/ | sh
-# ENV DOCKER_HOST=unix:///var/run/docker.sock
-RUN sudo service docker start
+ENV DOCKER_HOST=unix:///var/run/docker.sock
 
 
