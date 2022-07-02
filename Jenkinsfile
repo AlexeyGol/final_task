@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo "########### Preparing environment ###########"
                 // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
-                sh 'unset MAVEN_CONFIG'
+                // sh 'unset MAVEN_CONFIG'
                 // sh 'chmod 777 /var/run/docker.sock'
                 sh 'printenv'
                 }
