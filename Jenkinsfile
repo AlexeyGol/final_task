@@ -27,17 +27,7 @@ pipeline {
     // }
     
     stages {
-        
-        stage('TESTDOCKER'){
-            steps {
-                echo "########### TESTDOCKER ###########"
-                // script {
-                //     dockerImage = "alexego/final_task:$BUILD_NUMBER"
-                // }
-                sh 'docker run hello-world'
-            }
-            }
-        
+      
         // stage('Env settings'){
         //     steps {
         //         echo "########### Preparing environment ###########"
@@ -48,18 +38,18 @@ pipeline {
         //         }
         //     }
         
-        // stage('Test code'){
-        //     options {
-        //         timeout(time: 20, unit: "MINUTES")
-        //     }
-        //     steps {
-        //         echo "########### Testing code ###########"
-        //         sh 'pwd'
-        //         sh 'mvn -N io.takari:maven:wrapper'
-        //         //can add -X flag for debug mode
-        //         sh 'mvn test -f ./app/pom.xml'
-        //     }
-        // }
+        stage('Test code'){
+            options {
+                timeout(time: 20, unit: "MINUTES")
+            }
+            steps {
+                echo "########### Testing code ###########"
+                sh 'pwd'
+                sh 'mvn -N io.takari:maven:wrapper'
+                //can add -X flag for debug mode
+                sh 'mvn test -f ./app/pom.xml'
+            }
+        }
         // stage('Package'){
         //     steps {
         //         echo "########### Package jar ###########"
