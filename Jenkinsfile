@@ -5,7 +5,7 @@ pipeline {
             filename 'Dockerfile_jenkins_agent'
             dir 'build_image'
             // label 'put agent name here!'
-            args '-v /tmp:/tmp'
+            args '-v /tmp:/tmp -v /usr/bin/docker:/usr/bin/docker'
             // to do not download every time
             args '-v $HOME/.m2:/root/.m2'
             //to share docker commands to the agent
