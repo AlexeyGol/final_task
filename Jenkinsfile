@@ -7,7 +7,10 @@ pipeline {
             // label 'put agent name here!'
             args '-v /tmp:/tmp'
             // to do not download every time
-            args '-v /root/.m2:/root/.m2'
+            args '-v $HOME/.m2:/root/.m2'
+            //to share docker commands to the agent
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-v /usr/bin/docker:/usr/bin/docker'
         }
     }
     // // should be replaced with AWS roles?
