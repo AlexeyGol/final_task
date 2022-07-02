@@ -9,7 +9,7 @@ pipeline {
             // to do not download every time
             args '-v $HOME/.m2:/root/.m2'
             //to share docker commands to the agent
-            args '-v /usr/bin/docker:/usr/bin/docker'
+            args '-v $(which docker):/usr/bin/docker'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             //to share docker commands to the agent v2
             // args '-e DOCKER_HOST=unix:///var/run/docker.sock'
@@ -25,15 +25,22 @@ pipeline {
     // }
     
     stages {
-        stage('Env settings'){
+        stage('TESTDOCKER'){
             steps {
-                echo "########### Preparing environment ###########"
-                // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
-                sh 'unset MAVEN_CONFIG'
-                // sh 'chmod 777 /var/run/docker.sock'
-                sh 'printenv'
-                }
+                echo "########### TESTDOCKER ###########"
+                sh 'docker run hello-world'
             }
+            }
+        
+        // stage('Env settings'){
+        //     steps {
+        //         echo "########### Preparing environment ###########"
+        //         // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
+        //         sh 'unset MAVEN_CONFIG'
+        //         // sh 'chmod 777 /var/run/docker.sock'
+        //         sh 'printenv'
+        //         }
+        //     }
         
         // stage('Test code'){
         //     options {
@@ -47,25 +54,25 @@ pipeline {
         //         sh 'mvn test -f ./app/pom.xml'
         //     }
         // }
-        stage('Package'){
-            steps {
-                echo "########### Package jar ###########"
-                echo "$BUILD_TAG"
-                sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
-                sh 'ls -lah ./app/target'
-            }
-        } 
+        // stage('Package'){
+        //     steps {
+        //         echo "########### Package jar ###########"
+        //         echo "$BUILD_TAG"
+        //         sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
+        //         sh 'ls -lah ./app/target'
+        //     }
+        // } 
 
-        stage("Create Docker image"){
-            //Plugin - Build Timestamp for versioning
-            steps {
-                echo "###########Creating Docker image###########"
-                //
-                sh 'ls -lah'
-                sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
-                sh 'docker image ls -a'
-            }
-        }
+        // stage("Create Docker image"){
+        //     //Plugin - Build Timestamp for versioning
+        //     steps {
+        //         echo "###########Creating Docker image###########"
+        //         //
+        //         sh 'ls -lah'
+        //         sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+        //         sh 'docker image ls -a'
+        //     }
+        // }
        
         // stage("Push Docker image"){
         //     //Plugin - Build Timestamp for versioning
@@ -110,6 +117,7 @@ pipeline {
         //         script {
         //             // wait for the server to boot
         //             sleep(time: 60, unit: "SECONDS")
+        // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
         //             echo 'deploy to dev server'
         //             def dev_server = "ec2-user@${DEV_IP}"
 
