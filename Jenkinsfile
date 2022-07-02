@@ -25,7 +25,7 @@ pipeline {
                 }
             }
         }
-        stage("Test code") {
+        stage("Test code"){
             options {
                 timeout(time: 20, unit: "MINUTES")
             }
