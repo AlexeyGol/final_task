@@ -1,5 +1,5 @@
 FROM maven
-COPY /usr/local/bin/docker /usr/local/bin/docker
+COPY /usr//bin/docker /usr/bin/docker
 # RUN apt-get update && apt-get install -qy curl
 # RUN curl -o rootless-install.sh -fsSL https://get.docker.com/rootless
 # RUN sh rootless-install.sh
