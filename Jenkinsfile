@@ -6,7 +6,7 @@ pipeline {
             dir 'build_image'
             // label 'put agent name here!'
             args '-v /tmp:/tmp'
-            args '-v /.m2:/.m2'
+            args '-v /root/.m2:/root/.m2'
         }
     }
     // // should be replaced with AWS roles?
@@ -42,12 +42,12 @@ pipeline {
                 echo "$BUILD_TAG"
                 sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
                 sh 'ls -lah ./app/target'
-                sh "ls -lah ./app/target *.jar"
             }
         } 
 
         // stage("Create Docker image"){
         //     //Plugin - Build Timestamp for versioning
+        // spring-petclinic-2.7.0-SNAPSHOT.jar
         //     steps {
         //         echo "###########Creating Docker image###########"
         //         sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} ./app/target  --build-arg JARNAME="petclinic-*"
