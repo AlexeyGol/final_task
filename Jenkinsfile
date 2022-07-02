@@ -6,6 +6,7 @@ pipeline {
             dir 'build_image'
             // label 'put agent name here!'
             args '-v /tmp:/tmp'
+            // to do not download every time
             args '-v /root/.m2:/root/.m2'
         }
     }
@@ -45,15 +46,14 @@ pipeline {
             }
         } 
 
-        // stage("Create Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        // spring-petclinic-2.7.0-SNAPSHOT.jar
-        //     steps {
-        //         echo "###########Creating Docker image###########"
-        //         sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} ./app/target  --build-arg JARNAME="petclinic-*"
-        //         sh 'docker image ls -a'
-        //     }
-        // }
+        stage("Create Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Creating Docker image###########"
+                sh "docker build -f ./Dockerfile -t petclinic:${BUILD_TIMESTAMP} ./app/target  --build-arg JARNAME="spring-petclinic-2.7.0-SNAPSHOT.jar"
+                sh 'docker image ls -a'
+            }
+        }
        
         // stage("Push Docker image"){
         //     //Plugin - Build Timestamp for versioning
