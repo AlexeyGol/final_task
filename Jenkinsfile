@@ -28,28 +28,28 @@ pipeline {
     
     stages {
       
-        // stage('Env settings'){
-        //     steps {
-        //         echo "########### Preparing environment ###########"
-        //         // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
-        //         sh 'unset MAVEN_CONFIG'
-        //         // sh 'chmod 777 /var/run/docker.sock'
-        //         sh 'printenv'
-        //         }
-        //     }
+        stage('Env settings'){
+            steps {
+                echo "########### Preparing environment ###########"
+                // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
+                sh 'unset MAVEN_CONFIG'
+                // sh 'chmod 777 /var/run/docker.sock'
+                sh 'printenv'
+                }
+            }
         
-        // stage('Test code'){
-        //     options {
-        //         timeout(time: 20, unit: "MINUTES")
-        //     }
-        //     steps {
-        //         echo "########### Testing code ###########"
-        //         sh 'pwd'
-        //         // sh 'mvn -N io.takari:maven:wrapper'
-        //         //can add -X flag for debug mode
-        //         sh 'mvn test -f ./app/pom.xml -e -X '
-        //     }
-        // }
+        stage('Test code'){
+            options {
+                timeout(time: 20, unit: "MINUTES")
+            }
+            steps {
+                echo "########### Testing code ###########"
+                sh 'pwd'
+                sh 'mvn -N io.takari:maven:wrapper'
+                //can add -X flag for debug mode
+                sh 'mvn test -f ./app/pom.xml -e -X '
+            }
+        }
         stage('Package'){
             // agent {
             //     docker { 
