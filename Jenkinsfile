@@ -24,7 +24,7 @@ pipeline {
                 sh 'unset MAVEN_CONFIG'
                 }
             }
-        }
+        
         stage('Test code'){
             options {
                 timeout(time: 20, unit: "MINUTES")
@@ -115,7 +115,7 @@ pipeline {
         //         curl http://${DEV_IP}:8080
         //     }
         // }
-}
+    }
 
 
 // good_practice
