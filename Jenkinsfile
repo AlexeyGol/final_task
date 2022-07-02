@@ -51,6 +51,8 @@ pipeline {
         //     }
         // }
         stage('Package'){
+            agent {
+                docker { image 'maven' }
             steps {
                 echo "########### Package jar ###########"
                 echo "$BUILD_TAG"
