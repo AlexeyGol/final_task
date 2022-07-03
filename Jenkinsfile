@@ -53,7 +53,7 @@ pipeline {
                 //can add -X flag for debug mode
                 // sh 'mvn dependency:resolve'
                 // sh 'mvnw -f ./app package'
-                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml clean package'
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
                 // sh 'mvn -f app/pom.xml clean dependency:copy-dependencies package -U -X'
                 sh 'ls -lah ./app/target'
                 // sh 'mvn test -f ./app/pom.xml -e -X '
