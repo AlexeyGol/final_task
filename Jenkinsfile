@@ -4,24 +4,7 @@ pipeline {
     tools {
         maven "mvn 3.8.6"
     }
-        // {
-        // dockerfile {
-        //     filename 'Dockerfile_jenkins_agent'
-        //     dir 'build_image'
-        //     // label 'put agent name here!'
-        //     args '-v /tmp:/tmp'
-        //     // to do not download every time
-        //     args '-v $HOME/.m2:/root/.m2'
-        //     //to share docker commands to the agent
-        //     args '-v /usr/bin/docker:/usr/bin/docker'
-        //     args '-v /var/run/docker.sock:/var/run/docker.sock'
-        //     // args '-v /var/lib/jenkins:/var/lib/jenkins'
-        //     //to share docker commands to the agent v2
-        //     // args '-e DOCKER_HOST=unix:///var/run/docker.sock'
-        //     args '--privileged'
-        //     reuseNode true
-        // }
-    // }
+
     // // should be replaced with AWS roles?
     // environment {
     //     #env variables to access aws
@@ -29,34 +12,17 @@ pipeline {
     //     AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
     // }
     
-    stages {
-      
-        stage('Env settings'){
-            steps {
-                echo "########### Preparing environment ###########"
-                // sh 'git clone -n https://github.com/takari/maven-wrapper.git'
-                // sh 'unset MAVEN_CONFIG'
-                // sh 'chmod 777 /var/run/docker.sock'
-                sh 'printenv'
-                }
-            }
-        
-        stage('Test code'){
+    stages {     
+        stage('Build Jar'){
             options {
-                timeout(time: 20, unit: "MINUTES")
+                timeout(time: 5, unit: "MINUTES")
             }
             steps {
-                echo "########### Testing code ###########"
-                sh 'pwd'
-                sh 'ls -lah'
-                // sh 'mvn -N io.takari:maven:wrapper'
-                //can add -X flag for debug mode
-                // sh 'mvn dependency:resolve'
-                // sh 'mvnw -f ./app package'
+                echo "########### Building JAR FILE ###########"
+                // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
                 sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
-                // sh 'mvn -f app/pom.xml clean dependency:copy-dependencies clean package -Dmaven.test.skip=true -U -X'
                 sh 'ls -lah ./app/target'
-                // sh 'mvn test -f ./app/pom.xml -e -X '
+
             }
         }
         // stage('Package'){
