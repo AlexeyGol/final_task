@@ -73,7 +73,7 @@ pipeline {
                         sh 'terraform -v'
                         sh 'terraform init'
                         sh 'terraform plan'
-                        sh 'terraform apply --target=dev_server --auto-approve'
+                        sh 'terraform apply --target=dev_server --auto-approve --no-color'
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
