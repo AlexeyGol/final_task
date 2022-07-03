@@ -3,7 +3,7 @@ output "Jenkins_public_ip" {
 }
 
 output "Dev_server_public_ip" {
-   value = module.dev_server.instance.public_ip
+   value = module.dev_server.public_ip
 }
 
 output "add_Jenkins_URL_to_actual_jenkins_location" {
