@@ -9,9 +9,15 @@ sudo swapon /swapfile
 echo "******** install docker and git ******** "
 sudo yum update -y
 sudo yum install -y \
+  yum-utils \
   git \
   docker \
-  maven
+  maven \
+  java-openjdk11 \
+  gradle
+
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum -y install terraform
 
 echo "******** start docker service ******** "
 sudo service docker start

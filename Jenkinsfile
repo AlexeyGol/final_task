@@ -49,8 +49,11 @@ pipeline {
                 // sh 'mvn -N io.takari:maven:wrapper'
                 //can add -X flag for debug mode
                 // sh 'mvn dependency:resolve'
+                sh './app/mvnw package'
                 sh 'mvn clean dependency:copy-dependencies package -f ./app/pom.xml -U -X'
                 sh 'ls -lah ./app/target'
+                sh 'ls -lah ./app/build'
+                sh 'ls -lah ./app/build/libs'
                 // sh 'mvn test -f ./app/pom.xml -e -X '
             }
         }
