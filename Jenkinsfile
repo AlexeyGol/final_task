@@ -25,31 +25,17 @@ pipeline {
 
             }
         }
-        // stage('Package'){
-        //     // agent {
-        //     //     docker { 
-        //     //         image 'maven'
-        //     //         reuseNode true
-        //     //     }
-        //     steps {
-        //         echo "########### Package jar ###########"
-        //         echo "$BUILD_TAG"
-        //         echo "mvn --version"
-        //         sh 'mvn package -f ./app/pom.xml -Dmaven.test.skip=true'
-        //         sh 'ls -lah ./app/target'
-        //     }
-        //     } 
-        // }
-        // stage("Create Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Creating Docker image###########"
-        //         //
-        //         sh 'ls -lah'
-        //         sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
-        //         sh 'docker image ls -a'
-        //     }
-        // }
+
+        stage("Create Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Creating Docker image###########"
+                //
+                sh 'ls -lah'
+                sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+                sh 'docker image ls -a'
+            }
+        }
        
         // stage("Push Docker image"){
         //     //Plugin - Build Timestamp for versioning
