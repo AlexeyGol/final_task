@@ -19,5 +19,9 @@ variable vpc_cidr_block {
 variable image_name {
     default = "amzn2-ami-kernel-*-x86_64-gp2"
 }
-variable ansible_work_dir {}
-variable ssh_key_private {}
+variable ansible_work_dir {
+    default = "/mnt/f/!EPAM/DevOps_online_Kharkiv_2022Q1Q2/Devops_fin_task/ansible"
+}
+variable ssh_key_private {
+    default = "/home/alex/.ssh/server-key-pair.pem"
+}

@@ -59,7 +59,7 @@ pipeline {
             }  
         }
         
-        stage("Create dev server"){
+        stage("Environment - dev server"){
             // //role instead of environment?
             // environment {
             //     AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
@@ -69,6 +69,7 @@ pipeline {
             steps {
                script {
                     dir('terraform') {
+                        //tf needs access to s3 in the role
                         sh 'terraform -v'
                         sh 'terraform init'
                         sh 'terraform plan'
