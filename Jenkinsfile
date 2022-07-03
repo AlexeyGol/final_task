@@ -6,7 +6,7 @@ pipeline {
     }
     tools {
         maven "mvn 3.8.6"
-        terraform
+        terraform "Terraform 20622 darwin (amd64)"
     }
 
     // // should be replaced with AWS roles?
