@@ -1,6 +1,9 @@
 //or mvn clean package >> mvn test
 pipeline {
     agent any
+    environment {
+        DOCKER_IMAGE_NAME="alexego/final_task:final_task_${BUILD_TIMESTAMP}"
+    }
     tools {
         maven "mvn 3.8.6"
     }
@@ -35,7 +38,7 @@ pipeline {
                 sh 'ls -lah'
                 //tag with dockerhub repository
                 echo 'Build image and tag Docker Image with my Dockerhub repository'
-                sh "docker build -t alexego/final_task:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+                sh "docker build -t ${DOCKER_IMAGE_NAME} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
                 sh 'docker image ls -a'
                 sh 'docker ps'
             }
@@ -49,11 +52,8 @@ pipeline {
                     echo 'Login to the Dockerhub'
                     sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
                     sh "docker info"
-                    sh 'docker push alexego/final_task:${BUILD_TIMESTAMP}'
+                    sh 'docker push ${DOCKER_IMAGE_NAME}'
 
-
-                    // docker tag getting-started YOUR-USER-NAME/getting-started
-                    // docker push alexego/final_task
                 }
             }  
         }
