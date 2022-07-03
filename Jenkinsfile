@@ -50,7 +50,8 @@ pipeline {
                 //can add -X flag for debug mode
                 // sh 'mvn dependency:resolve'
                 // sh 'mvnw -f ./app package'
-                sh 'mvn -f app/pom.xml clean dependency:copy-dependencies package -U -X'
+                sh 'mvn -f app/pom.xml install'
+                // sh 'mvn -f app/pom.xml clean dependency:copy-dependencies package -U -X'
                 sh 'ls -lah ./app/target'
                 sh 'ls -lah ./app/build'
                 sh 'ls -lah ./app/build/libs'
