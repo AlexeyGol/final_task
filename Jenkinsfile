@@ -44,8 +44,8 @@ pipeline {
             steps {
                 echo "###########Pushing Docker image to the registry###########"
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                    sh 'echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin'
                     echo 'Login to the Dockerhub'
+                    sh('echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin')
                     sh "docker system info | grep -E alexeygo"
         //   sh 'docker push shanem/spring-petclinic:latest'
         //         docker tag getting-started YOUR-USER-NAME/getting-started
