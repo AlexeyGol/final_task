@@ -70,7 +70,8 @@ pipeline {
                script {
                     dir('terraform') {
                         sh 'terraform -v'
-                        // sh 'terraform init'
+                        sh 'terraform init'
+                        sh 'terraform plan'
                         // sh 'terraform apply --target <put module here> --auto-approve'
                         // DEV_IP = sh(
                         //     script: "terraform output Jenkins_public_ip",
