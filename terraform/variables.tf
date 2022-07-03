@@ -1,8 +1,8 @@
-variable subnet_cidr_block {
-    default = "10.0.10.0/24"
-}
 variable my_ip {
     default = "185.220.94.81/32"
+}
+variable subnet_cidr_block {
+    default = "10.0.10.0/24"
 }
 variable instance_type {
     default = "t2.micro" 

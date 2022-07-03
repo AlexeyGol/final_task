@@ -53,35 +53,32 @@ pipeline {
                     sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
                     sh "docker info"
                     sh 'docker push ${DOCKER_IMAGE_NAME}'
-
+                    echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
                 }
             }  
         }
         
-
-        
-
-
-        // stage("Create dev server"){
-        //     //role instead of environment?
-        //     environment {
-        //         AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
-        //         AWS_SECRET_ACCESS_KEY = ('aws_secret_access_key_for_jenkins')
-        //         TF_VAR_my_ip = "185.220.94.81/32"
-        //     }
-        //     steps {
-        //        script {
-        //             dir('terraform') {
-        //                 sh 'terraform init'
-        //                 sh 'terraform apply --target <put module here> --auto-approve'
-        //                 DEV_IP = sh(
-        //                     script: "terraform output Jenkins_public_ip",
-        //                     returnStdout: true
-        //                 ).trim
-        //             }
-        //        }
-        //     }
-        // }
+        stage("Create dev server"){
+            // //role instead of environment?
+            // environment {
+            //     AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
+            //     AWS_SECRET_ACCESS_KEY = ('aws_secret_access_key_for_jenkins')
+            //     TF_VAR_my_ip = "185.220.94.81/32"
+            // }
+            steps {
+               script {
+                    dir('terraform') {
+                        sh 'terraform -v'
+                        // sh 'terraform init'
+                        // sh 'terraform apply --target <put module here> --auto-approve'
+                        // DEV_IP = sh(
+                        //     script: "terraform output Jenkins_public_ip",
+                        //     returnStdout: true
+                        // ).trim
+                    }
+               }
+            }
+        }
         // stage("Deploy to dev") {
         //     steps {
         //         script {
