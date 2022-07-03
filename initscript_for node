@@ -27,7 +27,7 @@ echo "******** chkconfig ******** "
 sudo chkconfig docker on
 
 echo "******** change docker.sock permissions ******** "
-sudo chmod 777 /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
 
 echo "******** Creating Jenkins Workspace********"
 sudo mkdir -p /var/jenkins

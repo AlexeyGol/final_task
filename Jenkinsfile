@@ -33,7 +33,9 @@ pipeline {
                 echo "###########Creating Docker image###########"
                 //
                 sh 'ls -lah'
-                sh "docker build -t final_task_petclinic:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+                //tag with dockerhub repository
+                echo 'Build image and tag Docker Image with my Dockerhub repository'
+                sh "docker build -t alexego/final_task:${BUILD_TIMESTAMP} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
                 sh 'docker image ls -a'
                 sh 'docker ps'
             }
@@ -46,10 +48,12 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     echo 'Login to the Dockerhub'
                     sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                    sh "docker system info"
-        //   sh 'docker push shanem/spring-petclinic:latest'
-        //         docker tag getting-started YOUR-USER-NAME/getting-started
-        //         docker push alexego/final_task
+                    sh "docker info"
+                    sh 'docker push alexego/final_task:${BUILD_TIMESTAMP}'
+
+
+                    // docker tag getting-started YOUR-USER-NAME/getting-started
+                    // docker push alexego/final_task
                 }
             }  
         }
