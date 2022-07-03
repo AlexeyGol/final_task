@@ -78,7 +78,7 @@ pipeline {
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
-                        ).trim
+                        )
                     }
                }
                sh 'printenv'
