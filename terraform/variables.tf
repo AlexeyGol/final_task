@@ -25,3 +25,4 @@ variable ansible_work_dir {
 variable ssh_key_private {
     default = "/home/alex/.ssh/server-key-pair.pem"
 }
+

@@ -2,6 +2,10 @@ output "Jenkins_public_ip" {
    value = module.Jenkins_master.instance.public_ip
 }
 
+output "Dev_server_public_ip" {
+   value = module.dev_server.instance.public_ip
+}
+
 output "add_Jenkins_URL_to_actual_jenkins_location" {
   value = "http://${module.Jenkins_master.instance.public_ip}:8080/configure"
 }

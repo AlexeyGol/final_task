@@ -63,7 +63,7 @@ pipeline {
             // //role instead of environment?
             // environment {
             //     AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
-            //     AWS_SECRET_ACCESS_KEY = ('aws_secret_access_key_for_jenkins')
+            //     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key_for_jenkins')
             //     TF_VAR_my_ip = "185.220.94.81/32"
             // }
             steps {
@@ -73,13 +73,14 @@ pipeline {
                         sh 'terraform -v'
                         sh 'terraform init'
                         sh 'terraform plan'
-                        // sh 'terraform apply --target <put module here> --auto-approve'
-                        // DEV_IP = sh(
-                        //     script: "terraform output Jenkins_public_ip",
-                        //     returnStdout: true
-                        // ).trim
+                        sh 'terraform apply --target=dev_server --auto-approve'
+                        DEV_IP = sh(
+                            script: "terraform output Dev_server_public_ip",
+                            returnStdout: true
+                        ).trim
                     }
                }
+               sh 'printenv'
             }
         }
         // stage("Deploy to dev") {

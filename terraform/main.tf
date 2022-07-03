@@ -44,3 +44,17 @@ module "Jenkins_master" {
    ssh_key_private = var.ssh_key_private
    depends_on = [module.myapp-initstaff.internet_gateway]
 }
+
+module "dev_server" {
+   source = "./modules/dev_server"
+   vpc_id = aws_vpc.myapp-vpc.id
+   my_ip = var.my_ip
+   env_prefix = var.env_prefix
+   instance_type = var.instance_type
+   avail_zone = var.avail_zone
+   subnet_id = module.myapp-initstaff.subnet.id
+   instance_name = "dev-server"
+   jenkins_ip = "${module.Jenkins_master.instance.public_ip}/32"
+
+   depends_on = [module.myapp-initstaff.internet_gateway]
+   }
