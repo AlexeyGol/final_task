@@ -1,6 +1,9 @@
 //or mvn clean package >> mvn test
 pipeline {
     agent any
+    tools {
+        maven '3.8.6'
+    }
         // {
         // dockerfile {
         //     filename 'Dockerfile_jenkins_agent'
@@ -50,11 +53,7 @@ pipeline {
                 //can add -X flag for debug mode
                 // sh 'mvn dependency:resolve'
                 // sh 'mvnw -f ./app package'
-                script {
-                    withMaven {
-                        sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml install'
-                    }
-                }
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml install'
                 // sh 'mvn -f app/pom.xml clean dependency:copy-dependencies package -U -X'
                 sh 'ls -lah ./app/target'
                 sh 'ls -lah ./app/build'
