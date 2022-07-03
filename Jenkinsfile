@@ -43,7 +43,6 @@ pipeline {
             //Plugin - Build Timestamp for versioning
             steps {
                 echo "###########Pushing Docker image to the registry###########"
-                docker login 
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     sh "echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin"
                     sh "docker system info | grep -E 'alexeygo'"
