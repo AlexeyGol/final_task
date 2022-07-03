@@ -20,6 +20,7 @@ pipeline {
             steps {
                 echo "########### Building JAR FILE ###########"
                 // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
+                //to speed up:
                 sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
                 sh 'ls -lah ./app/target'
 
@@ -38,19 +39,20 @@ pipeline {
             }
         }
        
-        // stage("Push Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Pushing Docker image to the registry###########"
-        //         docker login 
-        // withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        //   sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+        stage("Push Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Pushing Docker image to the registry###########"
+                docker login 
+        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin"
+          docker system info | grep -E 'alexeygo'
         //   sh 'docker push shanem/spring-petclinic:latest'
         //         docker tag getting-started YOUR-USER-NAME/getting-started
         //         docker push alexego/final_task
-        //     }
-        // }
-
+            }
+        }
+        }
         
 
         
