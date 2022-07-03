@@ -46,7 +46,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     echo 'Login to the Dockerhub'
                     sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                    sh "docker system info | grep -E alexeygo"
+                    sh "docker system info"
         //   sh 'docker push shanem/spring-petclinic:latest'
         //         docker tag getting-started YOUR-USER-NAME/getting-started
         //         docker push alexego/final_task
