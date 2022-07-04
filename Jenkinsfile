@@ -72,7 +72,8 @@ pipeline {
                         //tf needs access to s3 in the role
                         sh 'terraform -v'
                         sh 'terraform init'
-                        sh 'terraform plan'
+                        // sh 'terraform plan'
+                        sh 'terraform state list'
                         // sh 'terraform apply -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         DEV_IP = sh(
