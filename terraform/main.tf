@@ -55,5 +55,7 @@ module "dev_server" {
    subnet_id = module.myapp-initstaff.subnet.id
    instance_name = "dev-server"
    
+   vpc_cidr_block_for_sg = "${aws_vpc.myapp-vpc.cidr_block}"
+
    depends_on = [module.myapp-initstaff.internet_gateway]
    }
