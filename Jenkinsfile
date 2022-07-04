@@ -95,21 +95,27 @@ pipeline {
                     // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
-
-                    sshagent(['server-key-pair']) {
-                        // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
-                        ssh env.dev_server StrictHostKeyChecking=no
-                            withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                                sh 'w'
-                                sh 'pwd'
-                                // // docker login
-                                // echo 'Login to the Dockerhub'
-                                // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                                // // pull image from ECR
-                                // sh 'docker pull ${DOCKER_IMAGE_NAME}'
-                                // echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                        sshagent(['server-key-pair']) {
+                            ssh dev_server "w"
+                            ssh dev_server "cat /etc/os-release"
+                            
+                            
+                            
+                            
+                            
+                            // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
+                            // ssh env.dev_server StrictHostKeyChecking=no
+                                
+                            //         sh 'w'
+                            //         sh 'pwd'
+                                    // // docker login
+                                    // echo 'Login to the Dockerhub'
+                                    // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                                    // // pull image from ECR
+                                    // sh 'docker pull ${DOCKER_IMAGE_NAME}'
                         }
-
+                    }
                      
                         // run image
                             // delete previous container
@@ -125,6 +131,13 @@ pipeline {
         //         curl http://${DEV_IP}:8080
         //     }
         // }
+
+        // stage("Deploy to production"){
+        //     steps {
+        //         timeout(time:5, unit: MINUTES) {
+        //             input message 'Approve deploy to production?'
+        //         }
+        // }        
     }
     
 
