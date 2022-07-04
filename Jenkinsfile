@@ -143,7 +143,7 @@ pipeline {
         //         }
         // }        
         }
-    
+    }
 
 // good_practice
     post {
@@ -160,5 +160,3 @@ pipeline {
             echo 'Build succeeded'
         }
     }
-    }
-}
