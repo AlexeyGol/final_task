@@ -73,14 +73,14 @@ pipeline {
                         sh 'terraform -v'
                         sh 'terraform init'
                         sh 'terraform state list -no-color '
-                        sh 'terraform plan -destroy -no-color '
+                        sh 'terraform plan -target=module.dev_server -no-color '
                         // sh 'terraform apply -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
-                            .trim()
-                        )
+                            )
+                        DEV_IP = DEV_IP.trim()
                     }
                }
                sh 'printenv'
@@ -120,7 +120,7 @@ pipeline {
     post {
         always {
             // cleanWs()
-            sh 'docker image prune -a -f'
+            sh 'docker image prune -af'
         }
         failure {
             echo 'Build failed. Notifying on Telegram'
