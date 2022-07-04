@@ -96,7 +96,7 @@ pipeline {
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
                     withCredentials([
-                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')
+                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: "aws-server-key-pair", keyFileVariable: 'ec2-pem')
                         ]){
                             sh "ssh -i ${ec2-pem} ${dev_server} echo 'hello', returnStdout: true"
