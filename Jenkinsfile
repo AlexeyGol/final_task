@@ -83,7 +83,7 @@ pipeline {
                             ).trim()
                     }
                }
-               sh 'printenv'
+               echo ${DEV_IP}
             }
         }
         // stage("Deploy to dev") {
