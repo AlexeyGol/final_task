@@ -118,15 +118,15 @@ pipeline {
                                     // // pull image from ECR
                                     // sh 'docker pull ${DOCKER_IMAGE_NAME}'
                         }
-                    }
+            //         }
                      
-                        // run image
-                            // delete previous container
-                            // docker container run alexego/final_task:${BUILD_TIMESTAMP}
-                    }
+            //             // run image
+            //                 // delete previous container
+            //                 // docker container run alexego/final_task:${BUILD_TIMESTAMP}
+            //         }
+            //     }
+            // }
                 }
-            }
-        }
         // stage("Test"){
         //     //Plugin - Build Timestamp for versioning
         //     steps {
