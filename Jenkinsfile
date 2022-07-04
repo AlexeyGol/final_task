@@ -100,11 +100,11 @@ pipeline {
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                         
-                        ssh -i ${ec2_pem} ${dev_server} << 'ENDSSH'
+                        sh 'ssh -i ${ec2_pem} ${dev_server} << 'ENDSSH'
                             unzip -o -d path/to/bin  path/to/bin/my-bin.zip 
                             rm path/to/bin/my-bin.zip 
                             chmod +x  path/to/bin/run.sh 
-                        ENDSSH
+                        ENDSSH'
                         
                         
                         
