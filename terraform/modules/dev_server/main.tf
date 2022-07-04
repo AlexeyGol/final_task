@@ -9,7 +9,7 @@ resource "aws_security_group" "env-servers-sg" {
      to_port = 22
    }
    ingress {
-     cidr_blocks = [module.myapp-initstaff.subnet]
+     cidr_blocks = [module.myapp-initstaff.subnet.id]
      from_port = 22
      protocol = "tcp"
      to_port = 22
