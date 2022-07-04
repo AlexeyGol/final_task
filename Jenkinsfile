@@ -102,10 +102,10 @@ pipeline {
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                         ]){
                             sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime"
-                            sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} /bin/bash << EOF
+                            sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} /bin/bash '<< EOF
                                 pwd
                                 uptime
-                            EOF"
+                            EOF'"
                             
                             
                             // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin"
