@@ -18,47 +18,47 @@ pipeline {
     
     stages {     
 
-        // stage('Build Jar'){
-        //     options {
-        //         timeout(time: 5, unit: "MINUTES")
-        //     }
-        //     steps {
-        //         echo "########### Building JAR FILE ###########"
-        //         // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
-        //         //to speed up:
-        //         sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
-        //         sh 'ls -lah ./app/target'
+        stage('Build Jar'){
+            options {
+                timeout(time: 5, unit: "MINUTES")
+            }
+            steps {
+                echo "########### Building JAR FILE ###########"
+                // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
+                //to speed up:
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
+                sh 'ls -lah ./app/target'
 
-        //     }
-        // }
+            }
+        }
 
-        // stage("Create Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Creating Docker image###########"
-        //         //
-        //         sh 'ls -lah'
-        //         //tag with dockerhub repository
-        //         echo 'Build image and tag Docker Image with my Dockerhub repository'
-        //         sh "docker build -t ${DOCKER_IMAGE_NAME} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
-        //         sh 'docker image ls -a'
-        //         sh 'docker ps'
-        //     }
-        // }
+        stage("Create Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Creating Docker image###########"
+                //
+                sh 'ls -lah'
+                //tag with dockerhub repository
+                echo 'Build image and tag Docker Image with my Dockerhub repository'
+                sh "docker build -t ${DOCKER_IMAGE_NAME} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+                sh 'docker image ls -a'
+                sh 'docker ps'
+            }
+        }
        
-        // stage("Push Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Pushing Docker image to the registry###########"
-        //         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        //             echo 'Login to the Dockerhub'
-        //             sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-        //             sh "docker info"
-        //             sh 'docker push ${DOCKER_IMAGE_NAME}'
-        //             echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
-        //         }
-        //     }  
-        // }
+        stage("Push Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Pushing Docker image to the registry###########"
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    echo 'Login to the Dockerhub'
+                    sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                    sh "docker info"
+                    sh 'docker push ${DOCKER_IMAGE_NAME}'
+                    echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
+                }
+            }  
+        }
         
         stage("Environment - dev server"){
             // //role instead of environment?
@@ -87,26 +87,34 @@ pipeline {
                echo "DEV_IP is : ${DEV_IP}"
             }
         }
-        // stage("Deploy to dev") {
-        //     steps {
-        //         script {
-        //             // wait for the server to boot
-        //             sleep(time: 60, unit: "SECONDS")
-        // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
-        //             echo 'deploy to dev server'
-        //             def dev_server = "ec2-user@${DEV_IP}"
+        stage("Deploy to dev") {
+            steps {
+                script {
+                    // wait for the server to boot
+                    // sleep(time: 60, unit: "SECONDS")
+                    // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                    echo 'deploy to dev server'
+                    def dev_server = "ec2-user@${DEV_IP}"
 
-        //             sshagent(['server-key-pair']) {
-        //                 sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
-        //                 // pull image from ECR
-        //                 // run image
-                            //delete previous container
+                    sshagent(['server-key-pair']) {
+                        // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
+                        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                             // docker login
-                            // docker run alexego/final_task:${BUILD_TIMESTAMP}
-        //             }
-        //         }
-        //     }
-        // }
+                            echo 'Login to the Dockerhub'
+                            sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                            // pull image from ECR
+                            sh 'docker pull ${DOCKER_IMAGE_NAME}'
+                            echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
+                        }
+
+                     
+                        // run image
+                            // delete previous container
+                            // docker container run alexego/final_task:${BUILD_TIMESTAMP}
+                    }
+                }
+            }
+        }
         // stage("Test"){
         //     //Plugin - Build Timestamp for versioning
         //     steps {
