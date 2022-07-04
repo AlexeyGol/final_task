@@ -68,6 +68,7 @@ resource "aws_instance" "dev-server" {
          sudo yum update -y && sudo yum install -y docker
          sudo systemctl start docker
          sudo usermod -aG docker ec2-user
+         sudo service docker start
    EOF
    # user_data = file("initscript_dev_env.sh")
    tags = {
