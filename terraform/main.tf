@@ -54,7 +54,7 @@ module "dev_server" {
    avail_zone = var.avail_zone
    subnet_id = module.myapp-initstaff.subnet.id
    instance_name = "dev-server"
-   jenkins_ip = "${module.Jenkins_master.instance.public_ip}/32"
+
 
    depends_on = [module.myapp-initstaff.internet_gateway]
    }

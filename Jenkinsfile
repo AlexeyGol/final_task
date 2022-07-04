@@ -99,26 +99,36 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
+                        
+                        ssh -i ${ec2_pem} ${dev_server} << 'ENDSSH'
+                            unzip -o -d path/to/bin  path/to/bin/my-bin.zip 
+                            rm path/to/bin/my-bin.zip 
+                            chmod +x  path/to/bin/run.sh 
+                        ENDSSH
+                        
+                        
+                        
+                        
                         // secretFile(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
-                        ]){
-                            // sh "ssh -i ${ec2_pem} ${dev_server} echo 'hello', returnStdout: true"
-                            sh "ssh -i ${ec2_pem} ${dev_server} cd ~; touch testfile"
-                            
-                        //     ssh dev_server "w"
-                        //     ssh dev_server "cat /etc/os-release"
+                        // ]){
+                        //     sh "ssh -i ${ec2_pem} ${dev_server} cd ~; touch testfile"
+                        //     sh "ssh -i ${ec2_pem} ${dev_server} echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin"
+                        //     sh "ssh -i ${ec2_pem} ${dev_server} docker image pull ${DOCKER_IMAGE_NAME}"
+                        // //     ssh dev_server "w"
+                        // //     ssh dev_server "cat /etc/os-release"
                                                         
-                        // sshagent(['server-key-pair']) {
-                            // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
-                            // ssh env.dev_server StrictHostKeyChecking=no
+                        // // sshagent(['server-key-pair']) {
+                        //     // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
+                        //     // ssh env.dev_server StrictHostKeyChecking=no
                                 
-                            //         sh 'w'
-                            //         sh 'pwd'
-                                    // // docker login
-                                    // echo 'Login to the Dockerhub'
-                                    // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                                    // // pull image from ECR
-                                    // sh 'docker pull ${DOCKER_IMAGE_NAME}'
-                        }
+                        //     //         sh 'w'
+                        //     //         sh 'pwd'
+                        //             // // docker login
+                        //             // echo 'Login to the Dockerhub'
+                        //             // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                        //             // // pull image from ECR
+                        //             // sh 'docker image pull ${DOCKER_IMAGE_NAME}'
+                        // }
             //         }
                      
             //             // run image

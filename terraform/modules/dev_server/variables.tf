@@ -1,4 +1,3 @@
-variable jenkins_ip {}
 variable vpc_id {}
 variable my_ip {}
 variable env_prefix {}
