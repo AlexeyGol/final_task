@@ -55,6 +55,5 @@ module "dev_server" {
    subnet_id = module.myapp-initstaff.subnet.id
    instance_name = "dev-server"
 
-
    depends_on = [module.myapp-initstaff.internet_gateway]
    }
