@@ -1,5 +1,5 @@
 variable my_ip {
-    default = "185.220.94.81/32"
+    default = "212.55.87.215"
 }
 variable subnet_cidr_block {
     default = "10.0.10.0/24"
