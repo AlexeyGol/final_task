@@ -5,4 +5,4 @@ variable instance_type {}
 variable subnet_id {}
 variable avail_zone {}
 variable instance_name {}
-
+variable vpccidrblock {}
