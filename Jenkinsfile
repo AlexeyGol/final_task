@@ -73,11 +73,12 @@ pipeline {
                         sh 'terraform -v'
                         sh 'terraform init'
                         sh 'terraform plan'
-                        sh 'terraform apply --target=module.dev_server --auto-approve -no-color'
+                        // sh 'terraform apply -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
+                            .trim()
                         )
                     }
                }
@@ -116,9 +117,10 @@ pipeline {
 
 // good_practice
     post {
-        // always {
-        //     cleanWs()
-        // }
+        always {
+            // cleanWs()
+            sh 'docker image prune -a -f'
+        }
         failure {
             echo 'Build failed. Notifying on Telegram'
             //TG notification
