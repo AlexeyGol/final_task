@@ -98,7 +98,7 @@ pipeline {
                     def dev_server = "ec2-user@${DEV_IP}"
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
-                        SSHUserPrivateKey(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
+                        secretFile(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
                         // sshUserPrivateKey(credentialsId: "ec2serverkeypairpem", keyFileVariable: 'ec2-pem')
                         ]){
                             sh "ssh -i ${ec2-pem} ${dev_server} echo 'hello', returnStdout: true"
