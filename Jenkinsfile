@@ -95,15 +95,16 @@ pipeline {
                     // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
-                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sshagent(['server-key-pair']) {
+                    withCredentials([
+                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')
+                        usernamePassword(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
+                        ]){
                             ssh dev_server "w"
                             ssh dev_server "cat /etc/os-release"
+                                                        
                             
                             
-                            
-                            
-                            
+                        // sshagent(['server-key-pair']) {
                             // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
                             // ssh env.dev_server StrictHostKeyChecking=no
                                 
