@@ -102,7 +102,7 @@ pipeline {
                         ]){
                         
                             // sh "ssh -i ${ec2_pem} ${dev_server} cd ~; touch testfile"
-                            sh 'ssh -i ${ec2_pem} ${dev_server} echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin; docker image pull ${DOCKER_IMAGE_NAME}'
+                            sh 'ssh -i ${ec2_pem} ${dev_server} echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin'
                             // sh "ssh -i ${ec2_pem} ${dev_server} docker image pull ${DOCKER_IMAGE_NAME}"
                         
                         
