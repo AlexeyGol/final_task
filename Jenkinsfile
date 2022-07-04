@@ -75,7 +75,7 @@ pipeline {
                         sh 'terraform init'
                         // sh 'terraform state list -no-color '
                         // sh 'terraform plan -target=module.dev_server -no-color '
-                        sh 'terraform apply -target=module.dev_server -auto-approve -no-color'
+                        sh 'terraform apply -auto-approve -no-color'
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         DEV_IP = sh(
