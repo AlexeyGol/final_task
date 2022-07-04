@@ -103,7 +103,8 @@ pipeline {
                         ]){
                             sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime"
                             sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime && \
-                            pwd"
+                            pwd \
+                            echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin"
                             
                             
                             
