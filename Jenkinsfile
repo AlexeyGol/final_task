@@ -121,6 +121,7 @@ pipeline {
         always {
             // cleanWs()
             sh 'docker image prune -af'
+            echo "https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated"
         }
         failure {
             echo 'Build failed. Notifying on Telegram'
