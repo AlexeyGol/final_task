@@ -83,7 +83,7 @@ pipeline {
                             ).trim()
                     }
                }
-               echo ${DEV_IP}
+               echo "${DEV_IP}"
             }
         }
         // stage("Deploy to dev") {
