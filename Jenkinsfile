@@ -98,13 +98,16 @@ pipeline {
 
                     sshagent(['server-key-pair']) {
                         // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
-                        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                            // docker login
-                            echo 'Login to the Dockerhub'
-                            sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                            // pull image from ECR
-                            sh 'docker pull ${DOCKER_IMAGE_NAME}'
-                            echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
+                        ssh env.dev_server StrictHostKeyChecking=no
+                            withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                                sh 'w'
+                                sh 'pwd'
+                                // // docker login
+                                // echo 'Login to the Dockerhub'
+                                // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                                // // pull image from ECR
+                                // sh 'docker pull ${DOCKER_IMAGE_NAME}'
+                                // echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
                         }
 
                      
