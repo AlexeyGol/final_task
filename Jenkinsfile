@@ -60,33 +60,33 @@ pipeline {
         //     }  
         // }
         
-        // stage("Environment - dev server"){
-        //     // //role instead of environment?
-        //     // environment {
-        //     //     AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
-        //     //     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key_for_jenkins')
-        //     //     TF_VAR_my_ip = "185.220.94.81/32"
-        //     // }
-        //     steps {
-        //        script {
-        //             dir('terraform') {
-        //                 //tf needs access to s3 in the role
-        //                 // sh 'terraform -v'
-        //                 sh 'terraform init'
-        //                 // sh 'terraform state list -no-color '
-        //                 // sh 'terraform plan -target=module.dev_server -no-color '
-        //                 sh 'terraform apply -target=module.dev_server -auto-approve -no-color'
-        //                 // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
-        //                 // sleep 60
-        //                 DEV_IP = sh(
-        //                     script: "terraform output Dev_server_public_ip",
-        //                     returnStdout: true
-        //                     ).trim()
-        //             }
-        //        }
-        //        echo "DEV_IP is : ${DEV_IP}"
-        //     }
-        // }
+        stage("Environment - dev server"){
+            // //role instead of environment?
+            // environment {
+            //     AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
+            //     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key_for_jenkins')
+            //     TF_VAR_my_ip = "185.220.94.81/32"
+            // }
+            steps {
+               script {
+                    dir('terraform') {
+                        //tf needs access to s3 in the role
+                        // sh 'terraform -v'
+                        sh 'terraform init'
+                        // sh 'terraform state list -no-color '
+                        // sh 'terraform plan -target=module.dev_server -no-color '
+                        sh 'terraform apply -target=module.dev_server -auto-approve -no-color'
+                        // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
+                        // sleep 60
+                        DEV_IP = sh(
+                            script: "terraform output Dev_server_public_ip",
+                            returnStdout: true
+                            ).trim()
+                    }
+               }
+               echo "DEV_IP is : ${DEV_IP}"
+            }
+        }
         
         stage("Deploy to dev") {
             steps {
