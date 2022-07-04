@@ -54,6 +54,6 @@ module "dev_server" {
    avail_zone = var.avail_zone
    subnet_id = module.myapp-initstaff.subnet.id
    instance_name = "dev-server"
-
+   vpccidrblock = aws_vpc.myapp-vpc.cidr_block
    depends_on = [module.myapp-initstaff.internet_gateway]
    }

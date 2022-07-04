@@ -9,3 +9,4 @@ output "route_table" {
 output "internet_gateway" {
     value = aws_internet_gateway.myapp-igw
 }
+
