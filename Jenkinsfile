@@ -98,7 +98,8 @@ pipeline {
                     def dev_server = "ec2-user@${DEV_IP}"
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
-                        sshUserPrivateKey(credentialsId: "ec2serverkeypairpem", keyFileVariable: 'ec2-pem')
+                        SSHUserPrivateKey(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
+                        // sshUserPrivateKey(credentialsId: "ec2serverkeypairpem", keyFileVariable: 'ec2-pem')
                         ]){
                             sh "ssh -i ${ec2-pem} ${dev_server} echo 'hello', returnStdout: true"
                             sh "ssh -i ${ec2-pem} ${dev_server} cd ~; touch testfile"
@@ -106,7 +107,6 @@ pipeline {
                         //     ssh dev_server "w"
                         //     ssh dev_server "cat /etc/os-release"
                                                         
-                        // usernamePassword(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
                         // sshagent(['server-key-pair']) {
                             // sh "scp -o StrictHostKeyChecking=no somefile ${DEV_IP}:/home/ec2-user/"
                             // ssh env.dev_server StrictHostKeyChecking=no
