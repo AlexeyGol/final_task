@@ -87,6 +87,7 @@ pipeline {
                echo "DEV_IP is : ${DEV_IP}"
             }
         }
+        
         stage("Deploy to dev") {
             steps {
                 script {
@@ -125,8 +126,8 @@ pipeline {
             //                 // docker container run alexego/final_task:${BUILD_TIMESTAMP}
             //         }
             //     }
-            // }
                 }
+        }
         // stage("Test"){
         //     //Plugin - Build Timestamp for versioning
         //     steps {
@@ -141,7 +142,7 @@ pipeline {
         //             input message 'Approve deploy to production?'
         //         }
         // }        
-    // }
+        }
     
 
 // good_practice
