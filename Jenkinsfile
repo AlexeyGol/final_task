@@ -101,9 +101,9 @@ pipeline {
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                         ]){
                             // sh "ssh -i ${ec2_pem} ${dev_server} cd ~; touch testfile"
-                            sh "ssh -i ${ec2_pem} ${dev_server} StrictHostKeyChecking=no docker ps"
+                            sh "ssh -i ${ec2_pem} ${dev_server} -o "StrictHostKeyChecking=no" docker ps"
 
-                            sh "ssh -i ${ec2_pem} ${dev_server} StrictHostKeyChecking=no echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin"
+                            // sh "ssh -i ${ec2_pem} ${dev_server} StrictHostKeyChecking=no echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin"
                             // sh "ssh -i ${ec2_pem} ${dev_server} docker image pull ${DOCKER_IMAGE_NAME}"
                         
                         //  COMMANDS = "cd /www && git fetch"
