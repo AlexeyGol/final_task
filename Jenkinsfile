@@ -78,7 +78,7 @@ pipeline {
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         DEV_IP = sh(
-                            script: terraform output Dev_server_public_ip,
+                            script: "terraform output Dev_server_public_ip",
                             returnStdout: true
                             )
                         DEV_IP = DEV_IP.trim()
