@@ -96,11 +96,14 @@ pipeline {
                     // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
+                    def dev_user = 'ec2-user'
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                         ]){
-                            sh "ssh -i ${ec2_pem} ${dev_server} StrictHostKeyChecking=no docker ps"
+                            sh 'ssh -o StrictHostKeyChecking=no ${dev_user}@${DEV_IP} uptime'
+                            
+                            // sh "ssh -i ${ec2_pem} ${dev_server} StrictHostKeyChecking=no docker ps"
 
                             // sh "ssh -i ${ec2_pem} ${dev_server} StrictHostKeyChecking=no echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin"
                             // sh "ssh -i ${ec2_pem} ${dev_server} docker image pull ${DOCKER_IMAGE_NAME}"
