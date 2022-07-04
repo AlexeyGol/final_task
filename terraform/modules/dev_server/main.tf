@@ -3,7 +3,13 @@ resource "aws_security_group" "env-servers-sg" {
    vpc_id = var.vpc_id
 
    ingress {
-     cidr_blocks = [var.my_ip, "${module.Jenkins_master.instance.public_ip}/32"]
+     cidr_blocks = [var.my_ip]
+     from_port = 22
+     protocol = "tcp"
+     to_port = 22
+   }
+   ingress {
+     cidr_blocks = [var.jenkins_ip]
      from_port = 22
      protocol = "tcp"
      to_port = 22
