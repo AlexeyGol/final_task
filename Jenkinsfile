@@ -97,12 +97,12 @@ pipeline {
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
-                    withCredentials([
-                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
-                        // sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
-                        ]){
-                            sshagent(['ec2-ssh-username-with-pk']){
-                            sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
+                    sshagent(['ec2-ssh-username-with-pk']){
+                        withCredentials([
+                            usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
+                            // sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
+                            ]){
+                                sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
 
                             // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime" //WORKING!
                             // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
