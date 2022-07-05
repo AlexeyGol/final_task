@@ -104,7 +104,7 @@ pipeline {
                         sh "scp -o StrictHostKeyChecking=no \
                             /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar \
                             ${DEV_IP}:/home/ec2-user/"
-                        sh "ls -lah /home/ec2-user && cd /home/ec2-user && java -jar spring-petclinic-2.7.0-SNAPSHOT.jar"
+                        sh "ls -lah /home/ec2-user && java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar"
                     }
                         
                     // withCredentials([
