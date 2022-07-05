@@ -56,6 +56,6 @@ module "dev_server" {
    instance_name = "dev-server"
    
    vpc_cidr_block_for_sg = "${aws_vpc.myapp-vpc.cidr_block}"
-
+   jenkins_node_ip = var.jenkins_node_ip
    depends_on = [module.myapp-initstaff.internet_gateway]
    }

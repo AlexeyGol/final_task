@@ -25,4 +25,7 @@ variable ansible_work_dir {
 variable ssh_key_private {
     default = "/home/alex/.ssh/server-key-pair.pem"
 }
-
+variable jenkins_node_ip {
+    description = "Put here Jenkins agent node IP"
+    default = "18.170.230.40"
+}
