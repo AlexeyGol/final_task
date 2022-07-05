@@ -100,13 +100,13 @@ pipeline {
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
                     
-                    sshagent(['ec2-ssh-username-with-pk']){
-                        sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
+                    withCredentials([
+                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
+                            sshagent(['ec2-ssh-username-with-pk']){
+                                sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
+                            }
                     }
                     
-                    
-                    // withCredentials([
-                    //     usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                     //     sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
                             // sshagent(['ec2-ssh-username-with-pk']){
                         
