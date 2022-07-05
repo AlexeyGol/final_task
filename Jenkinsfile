@@ -18,47 +18,47 @@ pipeline {
     
     stages {     
 
-        // stage('Build Jar'){
-        //     options {
-        //         timeout(time: 5, unit: "MINUTES")
-        //     }
-        //     steps {
-        //         echo "########### Building JAR FILE ###########"
-        //         // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
-        //         //to speed up:
-        //         sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
-        //         sh 'ls -lah ./app/target'
+        stage('Build Jar'){
+            options {
+                timeout(time: 5, unit: "MINUTES")
+            }
+            steps {
+                echo "########### Building JAR FILE ###########"
+                // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
+                //to speed up:
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
+                sh 'ls -lah ./app/target'
 
-        //     }
-        // }
+            }
+        }
 
-        // stage("Create Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Creating Docker image###########"
-        //         //
-        //         sh 'ls -lah'
-        //         //tag with dockerhub repository
-        //         echo 'Build image and tag Docker Image with my Dockerhub repository'
-        //         sh "docker build -t ${DOCKER_IMAGE_NAME} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
-        //         sh 'docker image ls -a'
-        //         sh 'docker ps'
-        //     }
-        // }
+        stage("Create Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Creating Docker image###########"
+                //
+                sh 'ls -lah'
+                //tag with dockerhub repository
+                echo 'Build image and tag Docker Image with my Dockerhub repository'
+                sh "docker build -t ${DOCKER_IMAGE_NAME} --build-arg JARNAME='spring-petclinic-2.7.0-SNAPSHOT.jar' ."
+                sh 'docker image ls -a'
+                sh 'docker ps'
+            }
+        }
        
-        // stage("Push Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Pushing Docker image to the registry###########"
-        //         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        //             echo 'Login to the Dockerhub'
-        //             sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-        //             sh "docker info"
-        //             sh 'docker push ${DOCKER_IMAGE_NAME}'
-        //             echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
-        //         }
-        //     }  
-        // }
+        stage("Push Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Pushing Docker image to the registry###########"
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    echo 'Login to the Dockerhub'
+                    sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                    sh "docker info"
+                    sh 'docker push ${DOCKER_IMAGE_NAME}'
+                    echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
+                }
+            }  
+        }
         
         stage("Environment - dev server"){
             // //role instead of environment?
@@ -104,10 +104,14 @@ pipeline {
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
                         sshagent(credentials: ['ec2-ssh-username-with-pk']){
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime && \
-                            echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin  "
+                            echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
+                            docker image pull \${DOCKER_IMAGE_NAME} && \
+                            docker image ls -a"
                         }
                     }
-                    
+                            // rm /home/ec2-user/.docker/config.json
+
+
                             // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u $dockerHubUser -p $dockerHubPassword"
                     //     sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                             // sshagent(['ec2-ssh-username-with-pk']){
@@ -134,8 +138,6 @@ pipeline {
                             
                             // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin"
 
-                                // docker image pull ${DOCKER_IMAGE_NAME} && \
-                                // docker image ls -a"
                            
                             
 
