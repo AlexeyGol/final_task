@@ -107,8 +107,7 @@ pipeline {
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
                             docker image ls -a && \
-                            docker image prune -a -f
-                            "
+                            docker image prune -af "
                         }
                     }
                             // rm /home/ec2-user/.docker/config.json
