@@ -108,6 +108,9 @@ pipeline {
                             docker image pull \${DOCKER_IMAGE_NAME} && \
                             docker image ls -a && \
                             docker image prune -af "
+                            // run image
+                            docker container run alexego/final_task:${BUILD_TIMESTAMP}
+                            // delete previous container
                         }
                     }
                             // rm /home/ec2-user/.docker/config.json
@@ -172,9 +175,6 @@ pipeline {
                         // }
                 // }
                      
-            //             // run image
-            //                 // delete previous container
-            //                 // docker container run alexego/final_task:${BUILD_TIMESTAMP}
             //         }
             //     }
             }
