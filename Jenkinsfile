@@ -103,9 +103,8 @@ pipeline {
                     //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
                     sshagent(['ec2-ssh-username-with-pk']) {
                         sh "scp -o StrictHostKeyChecking=no \
-                            /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar \
-                            ${DEV_IP}:/home/ec2-user/ && \
-                            java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar"
+                            /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar"
+                        sh "ssh -o StrictHostKeyChecking=no ${dev_server} java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar"
                         }
                         
                     // withCredentials([
