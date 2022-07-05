@@ -2,7 +2,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE_NAME='alexego/final_task:final_task_${BUILD_TIMESTAMP}'
+        DOCKER_IMAGE_NAME="alexego/final_task:final_task_${BUILD_TIMESTAMP}"
     }
     tools {
         maven "mvn 3.8.6"
@@ -106,10 +106,9 @@ pipeline {
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime && \
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
-                            docker image ls -a && \
-                            docker image prune -af && \
-                            docker container run alexego/final_task:\${BUILD_TIMESTAMP} \
-                            "
+                            docker image ls -a"
+                            sh "ssh -o StrictHostKeyChecking=no ${dev_server} docker container run alexego/final_task:\${BUILD_TIMESTAMP}"
+                            // docker image prune -af && \
                         }
                     }
                             // rm /home/ec2-user/.docker/config.json
