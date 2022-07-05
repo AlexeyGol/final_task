@@ -105,6 +105,7 @@ pipeline {
                             /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar \
                             ${DEV_IP}:/home/ec2-user/"
                         sh "cd $HOME/ec2-user && java -jar spring-petclinic-2.7.0-SNAPSHOT.jar"
+                    }
                         
                     // withCredentials([
                     //     usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
