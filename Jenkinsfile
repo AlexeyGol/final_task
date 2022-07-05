@@ -103,10 +103,12 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
                             sshagent(['ec2-ssh-username-with-pk']){
-                                sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
+                                sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime &&
+                                echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin"
                             }
                     }
                     
+                            // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u $dockerHubUser -p $dockerHubPassword"
                     //     sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                             // sshagent(['ec2-ssh-username-with-pk']){
                         
@@ -115,13 +117,11 @@ pipeline {
                             // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime" //WORKING!
                             // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
                             
-                            // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u $dockerHubUser -p $dockerHubPassword"
 
                             
                             
                             // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime && \
                             // pwd \
-                            // echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin"
                             
                             
                             
