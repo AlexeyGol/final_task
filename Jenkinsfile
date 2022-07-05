@@ -24,9 +24,9 @@ pipeline {
             }
             steps {
                 echo "########### Building JAR FILE ###########"
-                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
+                // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml package'
                 //to speed up:
-                // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
                 sh 'ls -lah ./app/target'
 
             }
