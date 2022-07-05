@@ -101,6 +101,7 @@ pipeline {
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')
                         ]){
+                            sshagent(){
                             sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime"
                             // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
                             
@@ -129,7 +130,7 @@ pipeline {
                             
 
                             // sh "ssh -i ${ec2_pem} ${dev_server} docker image pull ${DOCKER_IMAGE_NAME}"
-                        
+                            }
                         //  COMMANDS = "cd /www && git fetch"
                         // sh "sshpass -p $PASSWORD ssh -A -o StrictHostKeyChecking=no -T $USERNAME@$SERVER '$COMMANDS'"
                         
