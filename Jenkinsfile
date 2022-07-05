@@ -2,7 +2,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE_NAME="alexego/final_task:final_task_${BUILD_TIMESTAMP}"
+        DOCKER_IMAGE_NAME='alexego/final_task:final_task_${BUILD_TIMESTAMP}'
     }
     tools {
         maven "mvn 3.8.6"
