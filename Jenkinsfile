@@ -165,7 +165,7 @@ pipeline {
                         //             // // pull image from ECR
                         //             // sh 'docker image pull ${DOCKER_IMAGE_NAME}'
                         // }
-                }
+                // }
                      
             //             // run image
             //                 // delete previous container
