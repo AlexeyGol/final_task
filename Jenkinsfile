@@ -106,7 +106,9 @@ pipeline {
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime && \
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
-                            docker image ls -a"
+                            docker image ls -a && \
+                            docker image prune -a -f
+                            "
                         }
                     }
                             // rm /home/ec2-user/.docker/config.json
