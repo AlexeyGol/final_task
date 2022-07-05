@@ -172,7 +172,7 @@ pipeline {
             //                 // docker container run alexego/final_task:${BUILD_TIMESTAMP}
             //         }
             //     }
-                }
+            }
         }
         // stage("Test"){
         //     //Plugin - Build Timestamp for versioning
@@ -206,4 +206,3 @@ pipeline {
             echo 'Build succeeded'
         }
     }
-}
