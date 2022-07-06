@@ -40,7 +40,7 @@ pipeline {
                 sh 'ls -lah'
                 //tag with dockerhub repository
                 echo 'Build image and tag Docker Image with my Dockerhub repository'
-                sh 'docker build -t ${DOCKER_IMAGE_NAME} --build-arg JARNAME="*.jar" .'
+                sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
                 sh 'docker image ls -a'
                 sh 'docker ps'
             }
