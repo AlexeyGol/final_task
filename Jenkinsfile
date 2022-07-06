@@ -119,10 +119,12 @@ pipeline {
                             docker rm -f \$(docker ps -a -q) && \
                             docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME} && \
                             docker ps && \
-                             docker image ls -a && \
-                            docker image prune -af "
+                            docker image ls -a && \
+                            docker image prune -af && \
+                            docker ps"
                         }
                     }
+                    echo 'Test it here: ${DEV_IP}:8080'
                             // rm /home/ec2-user/.docker/config.json
 
 
