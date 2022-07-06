@@ -87,7 +87,7 @@ pipeline {
                         sh 'printenv'
                     }
                }
-               echo "DEV_IP is : ${DEV_IP}"
+               echo "DEV_IP is : ${DEV_IP}:8080"
             }
         }
         
@@ -120,11 +120,11 @@ pipeline {
                             docker container run -d \${DOCKER_IMAGE_NAME} && \
                             docker ps && \
                             docker image ls -a && \
-                            docker image prune -af && \
                             docker ps"
                         }
                     }
-                    echo 'Test it here: ${DEV_IP}:8080'
+                    echo "Test it here: ${DEV_IP}:8080"
+                            // docker image prune -af && \
                             // rm /home/ec2-user/.docker/config.json
 
 
