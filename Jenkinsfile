@@ -78,6 +78,7 @@ pipeline {
                         sh 'terraform apply -auto-approve -no-color'
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
+                        sh 'unset DEV_IP'
                         sh 'printenv'
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
@@ -100,25 +101,26 @@ pipeline {
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
                     
-                    //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
-                    sshagent(['ec2-ssh-username-with-pk']) {
-                        sh "scp -o StrictHostKeyChecking=no \
-                            /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar ${DEV_IP}:/home/ec2-user/"
-                        sh "ssh -o StrictHostKeyChecking=no ${dev_server} java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar >/dev/null 2>&1 &"
-                        }
-                        
-                    // withCredentials([
-                    //     usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
-                    //     sshagent(credentials: ['ec2-ssh-username-with-pk']){
-                    //         sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime && \
-                    //         echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
-                    //         docker image pull \${DOCKER_IMAGE_NAME} && \
-                    //         docker image ls -a && \
-                    //         docker container run \${DOCKER_IMAGE_NAME} && \
-                    //         docker ps"
-                    //         // docker image prune -af && \
+                    // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
+                    // sshagent(['ec2-ssh-username-with-pk']) {
+                    //     sh "scp -o StrictHostKeyChecking=no \
+                    //         /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar ${DEV_IP}:/home/ec2-user/"
+                    //     sh "ssh -o StrictHostKeyChecking=no ${dev_server} java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar >/dev/null 2>&1 &"
                     //     }
-                    // }
+                        
+                    //BLOCK WITH DOCKER
+                    withCredentials([
+                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
+                        sshagent(credentials: ['ec2-ssh-username-with-pk']){
+                            sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime && \
+                            echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
+                            docker image pull \${DOCKER_IMAGE_NAME} && \
+                            docker image ls -a && \
+                            docker container run \${DOCKER_IMAGE_NAME} && \
+                            docker ps"
+                            // docker image prune -af && \
+                        }
+                    }
                             // rm /home/ec2-user/.docker/config.json
 
 

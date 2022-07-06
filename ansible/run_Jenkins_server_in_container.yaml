@@ -1,6 +1,6 @@
 ---
 - name: Ensure that SSH connection is possible
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   gather_facts: False
   tasks:
     - name: ensure ssh port open
@@ -13,7 +13,7 @@
       vars:
         ansible_connection: local
 - name: create directory for mounting ebs volume for Jenkins
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: create Jenkins directory
@@ -25,7 +25,7 @@
 
 
 - name: Install Docker
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: Install Docker
@@ -35,7 +35,7 @@
         state: present
 
 - name: Install Docker-compose
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: Download and Install Docker-compose
@@ -45,7 +45,7 @@
         mode: +x
 
 - name: Start Docker
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: start Docker daemon
@@ -54,7 +54,7 @@
         state: started
 
 - name: Create new linux user
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name:  Create new linux user
@@ -65,7 +65,7 @@
 
 # To solve docker.image problem
 - name: Install docker python module 
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: install docker python module
@@ -75,7 +75,7 @@
 
 #to install:  ansible-galaxy collection install ansible.posix
 - name: Mount EBS volume for Jenkins_home data
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: mount volume
@@ -86,7 +86,7 @@
         state: mounted
   
 - name: Make Jenkins to be able to use Docker commands from host
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   tasks:
     - name: chmod docker.sock
@@ -95,7 +95,7 @@
         mode: '0666'
 
 - name: Start Jenkins docker container
-  hosts: all
+  hosts: tag_Name_Jenkins_final_task_server
   become: yes
   # become_user: alex
   tasks:
