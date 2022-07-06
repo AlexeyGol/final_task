@@ -117,7 +117,7 @@ pipeline {
                             docker image pull \${DOCKER_IMAGE_NAME} && \
                             docker image ls -a && \
                             docker rm -f \$(docker ps -a -q) && \
-                            docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME} && \
+                            docker container run -d \${DOCKER_IMAGE_NAME} && \
                             docker ps && \
                             docker image ls -a && \
                             docker image prune -af && \
