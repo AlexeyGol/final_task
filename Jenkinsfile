@@ -87,7 +87,7 @@ pipeline {
                         sh 'printenv'
                     }
                }
-               echo "DEV_IP is : ${DEV_IP}:8080"
+               echo "DEV_IP is : ${DEV_IP}"
             }
         }
         
