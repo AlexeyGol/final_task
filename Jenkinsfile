@@ -116,9 +116,10 @@ pipeline {
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
                             docker image ls -a && \
-                            docker container run -p 8080:8080 ${DOCKER_IMAGE_NAME} && \
-                            docker ps"
-                            // docker image prune -af && \
+                            docker rm -f $(docker ps -a -q)
+                            docker container run -d -p 8080:8080 ${DOCKER_IMAGE_NAME} && \
+                            docker ps && \
+                            docker image prune -af "
                         }
                     }
                             // rm /home/ec2-user/.docker/config.json
