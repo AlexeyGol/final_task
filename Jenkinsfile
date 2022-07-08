@@ -112,7 +112,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''sudo service docker start; \
+                            sh "ssh -t -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''sudo service docker start; \
                             echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin; \
                             curl http://checkip.amazonaws.com; \
                             docker image ls -a; \
