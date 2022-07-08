@@ -112,22 +112,18 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            sh """
-                                ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} 'echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin'
-                                """
-                        
+                            sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''uptime; \
+                            curl http://checkip.amazonaws.com; \
+                            docker image ls -a; \
+                            docker ps; \
+                            docker image ls -a; \
+                            docker ps'''"
                         }
                     }
+                            // docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
+                            // docker image pull \${DOCKER_IMAGE_NAME}; \
                         // def dev_commands = 'echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin && curl http://checkip.amazonaws.com'
                         //     sh """ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '$dev_commands'"""
-                            // sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''uptime && echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin; \
-                            // curl http://checkip.amazonaws.com; \
-                            // docker image pull \${DOCKER_IMAGE_NAME}; \
-                            // docker image ls -a; \
-                            // docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
-                            // docker ps; \
-                            // docker image ls -a; \
-                            // docker ps'''"
                     // echo "Test it here: ${DEV_IP}:8080"
                         // sshagent(credentials: ['ec2-ssh-username-with-pk']){
                             // docker rm \$(docker ps -a -q) -f && \
