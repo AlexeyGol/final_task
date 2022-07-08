@@ -120,7 +120,7 @@ pipeline {
                     sshagent(['ec2-ssh-username-with-pk']) {
                         def dev_commands = "docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}"
                         withDockerRegistry(credentialsId: 'dockerHub', toolName: 'Docker') {
-                            sh "ssh -o StrictHostKeyChecking=no $dev_server '${dev_commands}'"
+                            sh "ssh -o StrictHostKeyChecking=no $dev_server 'docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}'"
                         }
                     }
                 }
