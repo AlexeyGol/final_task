@@ -1,3 +1,11 @@
+data "aws_instance" "jenkins_node" {
+   region = var.avail_zone
+   filter {
+      name = "tag:Name"
+      values = ["Jenkins node"]
+   }
+}
+
 resource "aws_security_group" "env-servers-sg" {
    name = "env-servers-sg"
    vpc_id = var.vpc_id
@@ -9,7 +17,7 @@ resource "aws_security_group" "env-servers-sg" {
      to_port = 22
    }
    ingress {
-     cidr_blocks = ["${var.jenkins_node_ip}/32"]
+     cidr_blocks = ["${data.aws_instance.jenkins_node.public_ip}/32"]
      from_port = 22
      protocol = "tcp"
      to_port = 22
