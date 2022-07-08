@@ -122,6 +122,7 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USER')]) {                           
                             sh "ssh -o StrictHostKeyChecking=no $dev_server '${dev_commands}'"
                         }
+                    }
                 }
             }
         }
