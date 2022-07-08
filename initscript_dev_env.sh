@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 export BUILD_TIMESTAMP=$1
 export DOCKERHUB_USR=$2
