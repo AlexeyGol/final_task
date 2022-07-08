@@ -111,12 +111,14 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            def dev_cmd = 'bash /home/ec2-user/initscript_dev_env.sh "${dockerHubUser}" "${dockerHubPassword}"'
-                            sh "scp -i ${ec2_pem} -o StrictHostKeyChecking=no /var/jenkins/workspace/final_task_learn/initscript_dev_env.sh ${dev_server}:/home/ec2-user"
-                            sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} ${dev_cmd}"
+                            sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server 'echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin'"
                         }
                     }
-                            // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server 'echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin'"
+                            // def dev_cmd = 'bash /home/ec2-user/initscript_dev_env.sh "${dockerHubUser}" "${dockerHubPassword}"'
+                            // sh "scp -i ${ec2_pem} -o StrictHostKeyChecking=no /var/jenkins/workspace/final_task_learn/initscript_dev_env.sh ${dev_server}:/home/ec2-user"
+                            // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} ${dev_cmd}"
+
+                            
                             // docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
                             // docker image pull \${DOCKER_IMAGE_NAME}; \
                         // def dev_commands = 'echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin && curl http://checkip.amazonaws.com'
