@@ -79,12 +79,12 @@ pipeline {
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         sh 'unset DEV_IP'
-                        sh 'printenv'
+                        // sh 'printenv'
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
                             ).trim()
-                        sh 'printenv'
+                        // sh 'printenv'
                     }
                }
                echo "DEV_IP is : ${DEV_IP}"
