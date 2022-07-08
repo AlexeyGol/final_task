@@ -99,7 +99,6 @@ pipeline {
                     // sleep(time: 60, unit: "SECONDS")
                     // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                     echo 'deploy to dev server'
-                    def DOCKER_HUB_CREDS = credentials('dockerHub')
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
                     // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
@@ -120,7 +119,7 @@ pipeline {
                     // }
                     
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]) {
-                        sh "ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} docker login -u ${DOCKER_HUB_CREDS_USR} -p ${DOCKER_HUB_CREDS_PSW}"
+                        sh "ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} docker login -u ${DH_USR} -p ${DH_PWD}"
                     }
 
                 }
