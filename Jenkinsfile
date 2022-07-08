@@ -100,7 +100,6 @@ pipeline {
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
-                    def docker_image_name_for_script = "alexego/final_task:final_task_${BUILD_TIMESTAMP}"
                     // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
                     // sshagent(['ec2-ssh-username-with-pk']) {
                     //     sh "scp -o StrictHostKeyChecking=no \
@@ -112,7 +111,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            def dev_cmd = 'bash ./initscript_dev_env.sh ${docker_image_name_for_script} ${dockerHubUser} ${dockerHubPassword}'
+                            def dev_cmd = 'bash ./initscript_dev_env.sh ${BUILD_TIMESTAMP} ${dockerHubUser} ${dockerHubPassword}'
                             sh "scp -i ${ec2_pem} -o StrictHostKeyChecking=no /var/jenkins/workspace/final_task_learn/initscript_dev_env.sh ${dev_server}:/home/ec2-user"
                             sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} ${dev_cmd}"
                         }
