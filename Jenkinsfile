@@ -26,7 +26,7 @@ pipeline {
                 echo "########### Building JAR FILE ###########"
                 // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml clean package'
                 //to speed up:
-                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true package'
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true clean package'
                 sh 'ls -lah ./app/target'
 
             }
