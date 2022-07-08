@@ -116,7 +116,6 @@ pipeline {
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
                             docker image ls -a && \
-                            docker container rm -f \$(docker ps -a -q) && \
                             docker container run -p 8080:8080 -d \${DOCKER_IMAGE_NAME} && \
                             docker ps && \
                             docker image ls -a && \
@@ -124,6 +123,7 @@ pipeline {
                         }
                     }
                     echo "Test it here: ${DEV_IP}:8080"
+                            // docker container rm -f \$(docker ps -a -q) && \
                             // docker image prune -af && \
                             // rm /home/ec2-user/.docker/config.json
 
