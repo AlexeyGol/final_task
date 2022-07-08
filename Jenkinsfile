@@ -122,7 +122,7 @@ pipeline {
                             docker ps"
                         }
                     }
-                    echo "Test it here: ${DEV_IP}:8080"
+                    echo "Test it here: ${DEV_IP}.trim():8080"
                             // docker container rm -f \$(docker ps -a -q) && \
                             // docker image prune -af && \
                             // rm /home/ec2-user/.docker/config.json
