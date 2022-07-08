@@ -119,7 +119,7 @@ pipeline {
 
                     sshagent(['ec2-ssh-username-with-pk']) {
                         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USER')]) {                           
-                            sh "ssh -o StrictHostKeyChecking=no $dev_server docker login -u='${DH_USER}' -p='${DH_PWD}'"
+                            sh "ssh -o StrictHostKeyChecking=no $dev_server 'echo ${DH_PWD} | docker login -u=${DH_USER} --password-stdin"
                         }
                     }
                 }
