@@ -1,5 +1,5 @@
 data "aws_instance" "jenkins_node" {
-   region = var.avail_zone
+   availability_zone = var.avail_zone
    filter {
       name = "tag:Name"
       values = ["Jenkins node"]
