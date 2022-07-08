@@ -111,7 +111,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sshagent(credentials: ['ec2-ssh-username-with-pk']){
                             def docker_login = "docker pull ${DOCKER_IMAGE_NAME} && \
-                                docker rm $(docker ps -a -q) && \
+                                docker rm \$(docker ps -a -q) && \
                                 docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}"
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} '${docker_login}'"
                             }
