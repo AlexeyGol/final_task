@@ -1,5 +1,4 @@
 data "aws_instance" "jenkins_node" {
-   availability_zone = var.avail_zone
    filter {
       name = "tag:Name"
       values = ["Jenkins node"]
