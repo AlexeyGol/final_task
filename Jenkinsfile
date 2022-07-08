@@ -52,7 +52,7 @@ pipeline {
                 echo "###########Pushing Docker image to the registry###########"
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     echo 'Login to the Dockerhub'
-                    // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                    sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
                     // sh "docker info"
                     sh 'docker push ${DOCKER_IMAGE_NAME}'
                     echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
