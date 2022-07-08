@@ -72,10 +72,10 @@ pipeline {
                     dir('terraform') {
                         //tf needs access to s3 in the role
                         // sh 'terraform -v'
-                        sh 'terraform init'
+                        // sh 'terraform init'
                         // sh 'terraform state list -no-color '
                         // sh 'terraform plan -target=module.dev_server -no-color '
-                        sh 'terraform apply -auto-approve -no-color'
+                        // sh 'terraform apply -auto-approve -no-color'
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         sh 'unset DEV_IP'
