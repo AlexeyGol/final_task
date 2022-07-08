@@ -115,90 +115,10 @@ pipeline {
                                 sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin"
                             }
                         }
-                            // sh """
-                            //     ssh -t -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} 'docker login -u \${dockerHubUser} -p \${dockerHubPassword}'
-                            // """
 
-                        // sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                                // ssh -t -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} 'echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin'
-
-                            // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server 'echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin'"
-                            // def dev_cmd = 'bash /home/ec2-user/initscript_dev_env.sh "${dockerHubUser}" "${dockerHubPassword}"'
-                            // sh "scp -i ${ec2_pem} -o StrictHostKeyChecking=no /var/jenkins/workspace/final_task_learn/initscript_dev_env.sh ${dev_server}:/home/ec2-user"
-                            // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} ${dev_cmd}"
-
-                            
-                            // docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
-                            // docker image pull \${DOCKER_IMAGE_NAME}; \
-                        // def dev_commands = 'echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin && curl http://checkip.amazonaws.com'
-                        //     sh """ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '$dev_commands'"""
-                    // echo "Test it here: ${DEV_IP}:8080"
-                        // sshagent(credentials: ['ec2-ssh-username-with-pk']){
-                            // docker rm \$(docker ps -a -q) -f && \
-                            // echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
-                            // docker container rm -f \$(docker ps -a -q) && \
-                            // docker image prune -af && \
-                            // rm /home/ec2-user/.docker/config.json
-
-
-                            // sshagent(['ec2-ssh-username-with-pk']){
-                        
-                            // sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
-
-                            // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime" //WORKING!
-                            // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
-                            
-
-                            
-                            
-                            // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} uptime && \
-                            // pwd \
-                            
-                            
-                            
-                            
-                            // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} /bin/bash '<< EOF
-                            //     pwd
-                            //     uptime
-                            // EOF'"
-                            
-                            
-                            // sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin"
-
-                           
-                            
-
-                            // sh "ssh -i ${ec2_pem} ${dev_server} docker image pull ${DOCKER_IMAGE_NAME}"
-                        //  COMMANDS = "cd /www && git fetch"
-                        // sh "sshpass -p $PASSWORD ssh -A -o StrictHostKeyChecking=no -T $USERNAME@$SERVER '$COMMANDS'"
-                        
-                        
-                        // sh "ssh -i ${ec2_pem} ${dev_server} << 'ENDSSH'
-                        //     unzip -o -d path/to/bin  path/to/bin/my-bin.zip 
-                        //     rm path/to/bin/my-bin.zip 
-                        //     chmod +x  path/to/bin/run.sh 
-                        // ENDSSH"
-                        
-                        // //     ssh dev_server "w"
-                        // //     ssh dev_server "cat /etc/os-release"
-                        // secretFile(credentialsId: 'aws-server-key-pair', passwordVariable: 'ec2Password', usernameVariable: 'ec2User')
-                                                        
-                        //     // ssh env.dev_server StrictHostKeyChecking=no
-                                
-                        //     //         sh 'w'
-                        //     //         sh 'pwd'
-                        //             // // docker login
-                        //             // echo 'Login to the Dockerhub'
-                        //             // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                        //             // // pull image from ECR
-                        //             // sh 'docker image pull ${DOCKER_IMAGE_NAME}'
-                        // }
-                // }
-                     
-            //         }
-            //     }
                 }
             }
+        }
         
         // stage("Test"){
         //     //Plugin - Build Timestamp for versioning
@@ -216,7 +136,7 @@ pipeline {
         // }        
         
     
-        }
+    }
 // good_practice
     post {
         always {
@@ -232,5 +152,4 @@ pipeline {
             echo 'Build succeeded'
         }
     }
-}
 }
