@@ -112,10 +112,12 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                        def dev_commands = 'echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin && curl http://checkip.amazonaws.com'
-                            sh """ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '$dev_commands'"""
+                            sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server 'docker login -u $dockerHubUser -p $dockerHubPassword'"
+                        
                         }
                     }
+                        // def dev_commands = 'echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin && curl http://checkip.amazonaws.com'
+                        //     sh """ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '$dev_commands'"""
                             // sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''uptime && echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin; \
                             // curl http://checkip.amazonaws.com; \
                             // docker image pull \${DOCKER_IMAGE_NAME}; \
@@ -133,7 +135,6 @@ pipeline {
                             // rm /home/ec2-user/.docker/config.json
 
 
-                            // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server docker login -u $dockerHubUser -p $dockerHubPassword"
                             // sshagent(['ec2-ssh-username-with-pk']){
                         
                             // sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime"
