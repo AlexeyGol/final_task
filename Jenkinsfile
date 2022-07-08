@@ -112,8 +112,8 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                        def dev_commands = '(echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin); curl http://checkip.amazonaws.com'
-                            sh "ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '(echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin)'"
+                        def dev_commands = 'echo \${dockerHubPassword} | docker login --username \${dockerHubUser} --password-stdin && curl http://checkip.amazonaws.com'
+                            sh """ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '$dev_commands'"""
                         }
                     }
                             // sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''uptime && echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin; \
