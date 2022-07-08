@@ -111,7 +111,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            def dev_cmd = "bash ./initscript_dev_env.sh ${DOCKER_IMAGE_NAME} ${dockerHubUser} ${dockerHubPassword}"
+                            def dev_cmd = 'bash ./initscript_dev_env.sh ${DOCKER_IMAGE_NAME} ${dockerHubUser} ${dockerHubPassword}'
                             sh "scp -o StrictHostKeyChecking=no initscript_dev_env.sh -i ${ec2-pem} ${dev_server}:/home/ec2-user"
                             sh "scp -o StrictHostKeyChecking=no ${dev_server} ${dev_cmd}"
                         }
