@@ -112,11 +112,13 @@ pipeline {
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
                             sh """
-                                ssh -t -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} 'echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin'
+                                ssh -t -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} 'docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}'
                             """
                             
                         }
                     }
+                                // ssh -t -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} 'echo ${env.dockerHubPassword} | docker login -u ${env.dockerHubUser} --password-stdin'
+
                             // sh "ssh -i $ec2_pem -o StrictHostKeyChecking=no $dev_server 'echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin'"
                             // def dev_cmd = 'bash /home/ec2-user/initscript_dev_env.sh "${dockerHubUser}" "${dockerHubPassword}"'
                             // sh "scp -i ${ec2_pem} -o StrictHostKeyChecking=no /var/jenkins/workspace/final_task_learn/initscript_dev_env.sh ${dev_server}:/home/ec2-user"
