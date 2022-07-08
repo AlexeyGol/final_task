@@ -100,7 +100,7 @@ pipeline {
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
-                    def docker_image_name_for_script = "alexego\/final_task:final_task_${BUILD_TIMESTAMP}"
+                    def docker_image_name_for_script = "alexego/final_task\:final_task_${BUILD_TIMESTAMP}"
                     // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
                     // sshagent(['ec2-ssh-username-with-pk']) {
                     //     sh "scp -o StrictHostKeyChecking=no \
