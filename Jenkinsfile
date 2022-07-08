@@ -93,6 +93,9 @@ pipeline {
         
         stage("Deploy to dev") {
             steps {
+                environment {
+                    DOCKER_HUB_CREDS = credentials('dockerHub')
+                }
                 script {
                     // wait for the server to boot
                     // sleep(time: 60, unit: "SECONDS")
@@ -116,8 +119,9 @@ pipeline {
                     //         sh "ssh -o StrictHostKeyChecking=no ${dev_server} '${docker_login}'"
                     //         }
                     // }
+                    
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]) {
-                        sh "ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} docker login -u "${env.DH_USR}" -p "${env.DH_PWD}""
+                        sh "ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} docker login -u ${DOCKER_HUB_CREDS_USR} -p ${DOCKER_HUB_CREDS_PSW}"
                     }
 
                 }
