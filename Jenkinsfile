@@ -116,7 +116,7 @@ pipeline {
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
                             docker image ls -a && \
-                            docker rm $(docker ps -a -q) -f && \
+                            docker rm \$(docker ps -a -q) -f && \
                             docker container run -p 8080:8080 \${DOCKER_IMAGE_NAME} && \
                             docker ps && \
                             docker image ls -a && \
