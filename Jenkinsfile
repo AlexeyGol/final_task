@@ -111,7 +111,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            def dev_cmd = 'bash ./initscript_dev_env.sh ${BUILD_TIMESTAMP} ${dockerHubUser} ${dockerHubPassword}'
+                            def dev_cmd = 'bash /home/ec2-user/initscript_dev_env.sh ${BUILD_TIMESTAMP} ${dockerHubUser} ${dockerHubPassword}'
                             sh "scp -i ${ec2_pem} -o StrictHostKeyChecking=no /var/jenkins/workspace/final_task_learn/initscript_dev_env.sh ${dev_server}:/home/ec2-user"
                             sh "ssh -i ${ec2_pem} -o StrictHostKeyChecking=no ${dev_server} ${dev_cmd}"
                         }
