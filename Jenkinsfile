@@ -118,11 +118,10 @@ pipeline {
                     // }
 
                     sshagent(['ec2-ssh-username-with-pk']) {
-                        def dev_commands = "docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}"
-                        withDockerRegistry(credentialsId: 'dockerHub', toolName: 'Docker') {
-                            sh "ssh -o StrictHostKeyChecking=no $dev_server 'docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}'"
+                        def dev_commands = "docker login -u ${DH_USER} -p ${DH_PWD} && docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}"
+                        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USER')]) {                           
+                            sh "ssh -o StrictHostKeyChecking=no $dev_server '${dev_commands}'"
                         }
-                    }
                 }
             }
         }
