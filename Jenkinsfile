@@ -113,7 +113,7 @@ pipeline {
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
                         // sshagent(credentials: ['ec2-ssh-username-with-pk']){
-                            sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server  curl http://checkip.amazonaws.com && \
+                            sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''curl http://checkip.amazonaws.com && \
                             echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
                             curl http://checkip.amazonaws.com && \
                             docker image pull \${DOCKER_IMAGE_NAME} && \
@@ -123,7 +123,7 @@ pipeline {
                             curl http://checkip.amazonaws.com && \
                             docker ps && \
                             docker image ls -a && \
-                            docker ps"
+                            docker ps'''"
                         }
                     }
                     echo "Test it here: ${DEV_IP}:8080"
