@@ -112,20 +112,17 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            sh "
-                                ssh -o StrictHostKeyChecking=no -i \${ec2_pem} \${dev_server} "echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin;
-                                docker image ls -a " 
-                            "
+                            sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server ''' uptime && echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin; \
+                            curl http://checkip.amazonaws.com; \
+                            docker image pull \${DOCKER_IMAGE_NAME}; \
+                            docker image ls -a; \
+                            docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
+                            docker ps; \
+                            docker image ls -a; \
+                            docker ps'''"
                         }
                     }
-                    
-                    echo "Test it here: ${DEV_IP}:8080"
-                            // curl http://checkip.amazonaws.com; \
-                            // docker image pull \${DOCKER_IMAGE_NAME}; \
-                            // docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
-                            // docker ps; \
-                            // docker image ls -a; \
-                            // docker ps'''
+                    // echo "Test it here: ${DEV_IP}:8080"
                         // sshagent(credentials: ['ec2-ssh-username-with-pk']){
                             // docker rm \$(docker ps -a -q) -f && \
                             // echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin && \
