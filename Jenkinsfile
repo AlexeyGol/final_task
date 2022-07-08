@@ -112,11 +112,9 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
-                            sh """
-                                ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server /bin/bash <<'ENDSSH'
-                            uptime
-                            ENDSSH
-                            """
+                            sh '
+                                ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server uptime
+                            '
                         }
                     }
                             // docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
