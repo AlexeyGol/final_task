@@ -18,47 +18,47 @@ pipeline {
     
     stages {     
 
-        // stage('Build Jar'){
-        //     options {
-        //         timeout(time: 10, unit: "MINUTES")
-        //     }
-        //     steps {
-        //         echo "########### Building JAR FILE ###########"
-        //         // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml clean package'
-        //         //to speed up:
-        //         sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true clean package'
-        //         sh 'ls -lah ./app/target'
+        stage('Build Jar'){
+            options {
+                timeout(time: 10, unit: "MINUTES")
+            }
+            steps {
+                echo "########### Building JAR FILE ###########"
+                // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml clean package'
+                //to speed up:
+                sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true clean package'
+                sh 'ls -lah ./app/target'
 
-        //     }
-        // }
+            }
+        }
 
-        // stage("Create Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Creating Docker image###########"
-        //         //
-        //         sh 'ls -lah'
-        //         //tag with dockerhub repository
-        //         echo 'Build image and tag Docker Image with my Dockerhub repository'
-        //         sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
-        //         sh 'docker image ls -a'
-        //         sh 'docker ps'
-        //     }
-        // }
+        stage("Create Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Creating Docker image###########"
+                //
+                sh 'ls -lah'
+                //tag with dockerhub repository
+                echo 'Build image and tag Docker Image with my Dockerhub repository'
+                sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
+                sh 'docker image ls -a'
+                sh 'docker ps'
+            }
+        }
        
-        // stage("Push Docker image"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Pushing Docker image to the registry###########"
-        //         withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        //             echo 'Login to the Dockerhub'
-        //             // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-        //             // sh "docker info"
-        //             sh 'docker push ${DOCKER_IMAGE_NAME}'
-        //             echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
-        //         }
-        //     }  
-        // }
+        stage("Push Docker image"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "###########Pushing Docker image to the registry###########"
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    echo 'Login to the Dockerhub'
+                    // sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
+                    // sh "docker info"
+                    sh 'docker push ${DOCKER_IMAGE_NAME}'
+                    echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
+                }
+            }  
+        }
         
         stage("Environment - dev server"){
             // //role instead of environment?
@@ -72,10 +72,10 @@ pipeline {
                     dir('terraform') {
                         //tf needs access to s3 in the role
                         // sh 'terraform -v'
-                        // sh 'terraform init'
+                        sh 'terraform init'
                         // sh 'terraform state list -no-color '
                         // sh 'terraform plan -target=module.dev_server -no-color '
-                        // sh 'terraform apply -auto-approve -no-color'
+                        sh 'terraform apply -auto-approve -no-color'
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         sh 'unset DEV_IP'
