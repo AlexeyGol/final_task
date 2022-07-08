@@ -110,7 +110,7 @@ pipeline {
                         
                     //BLOCK WITH DOCKER
                     withCredentials([
-                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')
+                        usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
                         // sshagent(credentials: ['ec2-ssh-username-with-pk']){
                             sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server  curl http://checkip.amazonaws.com && \
