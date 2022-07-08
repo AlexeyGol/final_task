@@ -100,7 +100,6 @@ pipeline {
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
-                    def dev_commands = 'echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin; curl http://checkip.amazonaws.com'
                     
                     // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
                     // sshagent(['ec2-ssh-username-with-pk']) {
@@ -113,6 +112,7 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
+                        def dev_commands = 'echo ${dockerHubPassword} | docker login -u ${dockerHubUser} --password-stdin; curl http://checkip.amazonaws.com'
                             sh "ssh -o StrictHostKeyChecking=no -i ${ec2_pem} ${dev_server} '${dev_commands}'"
                         }
                     }
