@@ -199,7 +199,7 @@ pipeline {
             //     }
                 }
             }
-        }
+        
         // stage("Test"){
         //     //Plugin - Build Timestamp for versioning
         //     steps {
@@ -216,7 +216,7 @@ pipeline {
         // }        
         
     
-
+        }
 // good_practice
     post {
         always {
@@ -232,5 +232,4 @@ pipeline {
             echo 'Build succeeded'
         }
     }
-}
 }
