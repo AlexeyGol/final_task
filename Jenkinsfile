@@ -116,15 +116,19 @@ pipeline {
                     //         sh "ssh -o StrictHostKeyChecking=no ${dev_server} '${docker_login}'"
                     //         }
                     // }
-
-                    sshagent(['ec2-ssh-username-with-pk']) {
-                        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USER')]) {                           
-                            sh 'ssh -o StrictHostKeyChecking=no ${dev_server} "echo ${DH_PWD} | docker login -u ${DH_USER} --password-stdin"'
-                        }
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]) {
+                        sh 'ssh -o StrictHostKeyChecking=no -i ${ec2-ssh-username-with-pk} ${dev_server} "echo ${DH_PWD} | docker login -u ${DH_USER} --password-stdin"'   
                     }
+
                 }
             }
         }
+                    // sshagent(['ec2-ssh-username-with-pk']) {
+                    //     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USER')]) {                           
+                    //         sh 'ssh -o StrictHostKeyChecking=no ${dev_server} "echo ${DH_PWD} | docker login -u ${DH_USER} --password-stdin"'
+                    //     }
+                    // }
+
                     // && docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}
                     // withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'PEM', usernameVariable: 'EC2_USR'), usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR')]) {
                     // }
