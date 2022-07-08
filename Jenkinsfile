@@ -113,9 +113,8 @@ pipeline {
                         usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser'),
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
                             sh '''
-                                ssh -i $ec2_pem -o StrictHostKeyChecking=no -T $dev_server <<EOF
+                                ssh -t -i $ec2_pem -o StrictHostKeyChecking=no $dev_server
                                 uptime
-                                EOF
                             '''
                         }
                     }
