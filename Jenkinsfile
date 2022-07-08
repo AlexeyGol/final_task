@@ -115,7 +115,7 @@ pipeline {
                                 pswd = DOCKERHUB_PASSWORD
                                 sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime" 
                                 sh "ssh -o StrictHostKeyChecking=no ${dev_server} docker run hello-world" 
-                                sh "ssh -o StrictHostKeyChecking=no ${dev_server} docker login -u $usr -p $pswd"
+                                sh "ssh -o StrictHostKeyChecking=no ${dev_server} docker login -u \$usr -p \$pswd"
                             }
                         }
                                 // sh "ssh -o StrictHostKeyChecking=no ${dev_server} echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin"
