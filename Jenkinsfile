@@ -114,13 +114,13 @@ pipeline {
                         sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2_pem')]){
                         // sshagent(credentials: ['ec2-ssh-username-with-pk']){
                             sh "ssh -o StrictHostKeyChecking=no -i $ec2_pem $dev_server '''echo \${dockerHubPassword} | docker login -u \${dockerHubUser} --password-stdin; \
-                            curl http://checkip.amazonaws.com && \
+                            curl http://checkip.amazonaws.com; \
                             docker image pull \${DOCKER_IMAGE_NAME}; \
-                            docker image ls -a && \
-                            docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME} && \
-                            curl http://checkip.amazonaws.com && \
-                            docker ps && \
-                            docker image ls -a && \
+                            docker image ls -a; \
+                            docker container run -d -p 8080:8080 \${DOCKER_IMAGE_NAME}; \
+                            curl http://checkip.amazonaws.com; \
+                            docker ps; \
+                            docker image ls -a; \
                             docker ps'''"
                         }
                     }
