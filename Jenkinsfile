@@ -110,6 +110,7 @@ pipeline {
                     //BLOCK WITH DOCKER
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sshagent(credentials: ['ec2-ssh-username-with-pk']){
+                            sh "echo ${dockerHubUser}"
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} uptime" 
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} docker run hello-world" 
                             sh "ssh -o StrictHostKeyChecking=no ${dev_server} 'docker login -u \${dockerHubUser} -p \${dockerHubPassword}'"
