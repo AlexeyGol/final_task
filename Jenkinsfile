@@ -32,6 +32,15 @@ pipeline {
             }
         }
 
+        stage('Tests'){
+            }
+            steps {
+                echo "########### Running tests ###########"
+            }
+        }
+
+        
+
         stage("Create Docker image"){
             //Plugin - Build Timestamp for versioning
             steps {
