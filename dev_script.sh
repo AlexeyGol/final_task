@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export DH_USR=$1
-export DH_PWD=$2
+export DOCKER_USER=$1
+export DOCKER_PWD=$2
 
-echo $DH_USR
-echo $DH_PWD | docker login -u $DH_USR --password-stdin
+echo $DOCKER_USER
+echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin
