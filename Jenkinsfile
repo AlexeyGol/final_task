@@ -93,7 +93,9 @@ pipeline {
         
         stage("Deploy to dev") {
             steps {
-
+                environment {
+                    DH_CREDS = credentials('dockerHub')
+                }
                 script {
                     // wait for the server to boot
                     // sleep(time: 60, unit: "SECONDS")
@@ -119,7 +121,7 @@ pipeline {
                     // }
                     
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
-                        def docker_pull = "docker login -u alexego -p $DH_PWD"
+                        def docker_pull = "docker login -u $dockerHub_USR -p $dockerHub_PSW"
                         sh("ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} '$docker_pull'")
                     }
 
