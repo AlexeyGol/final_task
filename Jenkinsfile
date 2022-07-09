@@ -94,7 +94,7 @@ pipeline {
         stage("Deploy to dev") {
             environment {
                 DH_CREDS = credentials('dockerHub')
-                DOCKER_HOST = ssh://ec2-user@${DEV_IP}
+                DOCKER_HOST = "ssh://ec2-user@${DEV_IP}"
             }
             steps {
                 sh 'docker info'
