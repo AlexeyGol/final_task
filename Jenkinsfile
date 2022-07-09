@@ -94,40 +94,41 @@ pipeline {
         stage("Deploy to dev") {
             environment {
                 DH_CREDS = credentials('dockerHub')
-                DOCKER_HOST = "ssh://ec2-user@35.178.85.162"
+                // DOCKER_HOST = "ssh://ec2-user@35.178.85.162"
             }
             steps {
-                sh 'docker info'
-                // script {
-                //     // wait for the server to boot
-                //     // sleep(time: 60, unit: "SECONDS")
-                //     // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
-                //     echo 'deploy to dev server'
-                //     def dev_server = "ec2-user@${DEV_IP}"
-                //     def dev_user = 'ec2-user'
-                //     // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
-                //     // sshagent(['ec2-ssh-username-with-pk']) {
-                //     //     sh "scp -o StrictHostKeyChecking=no \
-                //     //         /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar ${DEV_IP}:/home/ec2-user/"
-                //     //     sh "ssh -o StrictHostKeyChecking=no ${dev_server} java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar >/dev/null 2>&1 &"
-                //     //     }
-                        
-                //     // //BLOCK WITH DOCKER - public repo
-                //     // withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                //     //     sshagent(credentials: ['ec2-ssh-username-with-pk']){
-                //     //         def docker_login = "docker pull ${DOCKER_IMAGE_NAME} && \
-                //     //             docker rm -f \$(docker ps -a -q) && \
-                //     //             docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}"
-                //     //         sh "ssh -o StrictHostKeyChecking=no ${dev_server} '${docker_login}'"
-                //     //         }
-                //     // }
-                    
-                //     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
-                //         def docker_pull = 'docker login -u \$DH_CREDS_USR -p \$DH_CREDS_PSW'
-                //         sh("ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} '$docker_pull'")
-                //     }
 
-                // }
+                script {
+                    // wait for the server to boot
+                    // sleep(time: 60, unit: "SECONDS")
+                    // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
+                    echo 'deploy to dev server'
+                    def dev_server = "ec2-user@${DEV_IP}"
+                    def dev_user = 'ec2-user'
+                    // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
+                    // sshagent(['ec2-ssh-username-with-pk']) {
+                    //     sh "scp -o StrictHostKeyChecking=no \
+                    //         /var/jenkins/workspace/final_task_learn/app/target/spring-petclinic-2.7.0-SNAPSHOT.jar ${DEV_IP}:/home/ec2-user/"
+                    //     sh "ssh -o StrictHostKeyChecking=no ${dev_server} java -jar /home/ec2-user/spring-petclinic-2.7.0-SNAPSHOT.jar >/dev/null 2>&1 &"
+                    //     }
+                        
+                    // //BLOCK WITH DOCKER - public repo
+                    // withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    //     sshagent(credentials: ['ec2-ssh-username-with-pk']){
+                    //         def docker_login = "docker pull ${DOCKER_IMAGE_NAME} && \
+                    //             docker rm -f \$(docker ps -a -q) && \
+                    //             docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}"
+                    //         sh "ssh -o StrictHostKeyChecking=no ${dev_server} '${docker_login}'"
+                    //         }
+                    // }
+                    
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
+                        sh('docker -H ssh://ec2user@35.178.85.162 ps')                        
+                        // def docker_pull = 'docker login -u \$DH_CREDS_USR -p \$DH_CREDS_PSW'
+                        // sh("ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} '$docker_pull'")
+                    }
+
+                }
             }
         }
                     // sshagent(['ec2-ssh-username-with-pk']) {
