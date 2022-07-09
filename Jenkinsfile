@@ -119,7 +119,7 @@ pipeline {
                     // }
                     
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
-                        sh "ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} 'docker pull $DOCKER_IMAGE_NAME'"
+                        sh "ssh -i ${env.ec2pem} -o StrictHostKeyChecking=no ${dev_server} 'docker login -u=alexeygo -p=${DH_PWD}'"
                     }
 
                 }
