@@ -16,7 +16,7 @@ resource "aws_security_group" "env-servers-sg" {
      to_port = 22
    }
    ingress {
-     cidr_blocks = ["0.0.0.0/0"]
+     cidr_blocks = [var.my_ip, "${data.aws_instance.jenkins_node.public_ip}/32"]
      from_port = 2375
      protocol = "tcp"
      to_port = 2375
