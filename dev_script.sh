@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export DOCKER_USER=$1
-export DOCKER_PWD=$2
+export DOCKER_PASSWORD=$2
 
 echo $DOCKER_USER
-echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin
+echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
