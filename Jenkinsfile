@@ -92,6 +92,9 @@ pipeline {
         }
         
         stage("Deploy to dev") {
+            environment {
+                DH_CREDS = credentials('dockerHub')
+            }
             steps {
 
                 script {
@@ -99,7 +102,6 @@ pipeline {
                     // sleep(time: 60, unit: "SECONDS")
                     // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                     echo 'deploy to dev server'
-                    def DH_CREDS = credentials('dockerHub')
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
                     // //COPY JAR FROM TARGET AND RUN ON DEV SERVER - WITHOUT DOCKER
