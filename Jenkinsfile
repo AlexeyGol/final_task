@@ -72,13 +72,13 @@ pipeline {
                     dir('terraform') {
                         //tf needs access to s3 in the role
                         // sh 'terraform -v'
-                        sh 'terraform init'
+                        // sh 'terraform init'
                         // sh 'terraform state list -no-color '
                         // sh 'terraform plan -target=module.dev_server -no-color '
-                        sh 'terraform apply -auto-approve -no-color'
+                        // sh 'terraform apply -auto-approve -no-color'
                         // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
-                        sh 'unset DEV_IP'
+                        // sh 'unset DEV_IP'
                         // sh 'printenv'
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
@@ -123,7 +123,7 @@ pipeline {
                     // }
                     
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
-                        def run_dev_server_script = "bash /home/ec2-user/dev_script.sh ${DH_USR} ${DH_PWD}"
+                        def run_dev_server_script = "bash /home/ec2-user/dev_script.sh 1651651 516516asd"
                         sh "scp -o StrictHostKeyChecking=no -i ${ec2pem} dev_script.sh ${dev_server}:/home/ec2-user"
                         sh "ssh -o StrictHostKeyChecking=no -i ${ec2pem} -t -t ${dev_server} ${run_dev_server_script}"
                     }
