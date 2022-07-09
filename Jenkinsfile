@@ -17,7 +17,6 @@ pipeline {
     // }
     
     stages {     
-
         stage('Build Jar'){
             options {
                 timeout(time: 10, unit: "MINUTES")
@@ -33,7 +32,6 @@ pipeline {
         }
 
         stage('Tests'){
-            }
             steps {
                 echo "########### Running tests ###########"
             }
