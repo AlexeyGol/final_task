@@ -18,6 +18,6 @@ output "Configure_security_group_for_jenkins_node_plugin" {
   value = "Add it to Manage Nodes > Configure clouds > rh 8 > under initscritpt > advanced ${module.myapp-initstaff.subnet.id}"
 }
 
-output "add_Jenkins_node_ip" {
+output "add_Jenkins_node_ip to variables" {
    value = "to variables"
 }

@@ -9,4 +9,5 @@ echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 docker pull $DOCKER_IMAGE
 docker stop petclinic
 docker run -p 8080:8080 -d --name petclinic $DOCKER_IMAGE 
-docker rmi $(docker images -aq)
+docker container prune -f
+docker image prune -af
