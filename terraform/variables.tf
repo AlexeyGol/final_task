@@ -27,5 +27,5 @@ variable ssh_key_private {
 }
 variable jenkins_node_ip {
     description = "Put here Jenkins agent node IP"
-    default = "3.8.152.116"
+    default = "35.178.109.135"
 }

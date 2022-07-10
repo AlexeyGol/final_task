@@ -7,3 +7,5 @@ variable avail_zone {}
 variable instance_name {}
 variable vpc_cidr_block_for_sg {}
 variable jenkins_node_ip {}
+
+
