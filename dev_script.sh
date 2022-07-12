@@ -12,9 +12,3 @@ DOCKER_IMAGE=$DOCKER_IMAGE docker-compose up -d
 
 
 
-# docker pull $DOCKER_IMAGE
-# docker stop petclinic
-# docker rm petclinic
-# docker run -p 8080:8080 -d --name petclinic $DOCKER_IMAGE 
-# docker container prune -f
-# docker image prune -af
