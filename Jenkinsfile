@@ -169,7 +169,8 @@ pipeline {
         }
         success {
             echo 'Build succeeded'
-            telegramSend 'Hello World'
+            telegramSend :
+                message: 'Hello World'
             echo "DEV_IP is : ${DEV_IP}"
             echo "PROD_IP is : ${PROD_IP}"
 
