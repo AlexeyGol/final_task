@@ -1,0 +1,32 @@
+#Install docker
+sudo amazon-linux-extras install -y docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+newgrp docker
+
+#Install docker-compose
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+*****************************************************************************
+docker login
+docker-compose up -d
+
+
+
+docker exec -it f60e3319b1ba bash
+mysql -u root -h localhost --protocol tcp
+    from user.sql
+
+    mysql> use petclinic
+
+
+
+works with: java -Dspring.profiles.active=mysql -jar app.jar
+
+
+    environment:
+      - SPRING_PROFILES_ACTIVE=mysql
+      - MYSQL_URL=jdbc:mysql://mysql:3306/petclinic
+
+
+      - MYSQL_URL=jdbc:mysql://3.8.203.70:3306/petclinic
