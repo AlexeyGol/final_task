@@ -30,3 +30,6 @@ works with: java -Dspring.profiles.active=mysql -jar app.jar
 
 
       - MYSQL_URL=jdbc:mysql://3.8.203.70:3306/petclinic
+
+
+      "-Dspring.profiles.active=mysql",
