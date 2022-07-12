@@ -157,10 +157,11 @@ pipeline {
         // }
 
         stage("Deploy to production"){
-            steps {
+            options {
                 timeout(time:5, unit: MINUTES) {
                     input message 'Approve deploy to production?'
                 }
+            steps {
                 script {
                     def PROD_IP = sh(
                         script: "terraform output Prod_server_public_ip",
