@@ -7,6 +7,10 @@ pipeline {
     tools {
         maven "mvn 3.8.6"
     }
+    options {
+        sidebarLinks([
+            [displayName: 'Side Bar Example', iconFileName: '', urlName: '${DEV_IP}']
+        ])
    
     stages {     
         stage('Build Jar'){
