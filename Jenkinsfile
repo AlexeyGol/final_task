@@ -1,4 +1,3 @@
-//or mvn clean package >> mvn test
 pipeline {
     agent any
     environment {
@@ -6,23 +5,17 @@ pipeline {
     }
     tools {
         maven "mvn 3.8.6"
-        // terraform "Terraform 20622 darwin (amd64)"
     }
-
-    // // should be replaced with AWS roles?
-    // environment {
-    //     #env variables to access aws
-    //     AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
-    //     AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
-    // }
-    
+   
     stages {     
         stage('Build Jar'){
             options {
                 timeout(time: 10, unit: "MINUTES")
             }
             steps {
-                echo "########### Building JAR FILE ###########"
+                echo "#####################################################################"
+                echo "######################### Building JAR FILE #########################"
+                echo "#####################################################################"
                 // sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml clean package'
                 //to speed up:
                 sh 'mvn -f /var/jenkins/workspace/final_task_learn/app/pom.xml -Dmaven.test.skip=true clean package'
@@ -33,7 +26,9 @@ pipeline {
 
         stage('Tests'){
             steps {
-                echo "########### Running tests ###########"
+                echo "#####################################################################"
+                echo "######################### Running tests #############################"
+                echo "#####################################################################"
             }
         }
 
@@ -42,51 +37,44 @@ pipeline {
         stage("Create Docker image"){
             //Plugin - Build Timestamp for versioning
             steps {
-                echo "###########Creating Docker image###########"
-                //
-                sh 'ls -lah'
+                echo "#####################################################################"
+                echo "##################### Creating Docker image #########################"
+                echo "#####################################################################"                
                 //tag with dockerhub repository
                 echo 'Build image and tag Docker Image with my Dockerhub repository'
                 sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
                 sh 'docker image ls -a'
-                sh 'docker ps'
             }
         }
        
         stage("Push Docker image"){
-            //Plugin - Build Timestamp for versioning
             steps {
-                echo "###########Pushing Docker image to the registry###########"
+                echo "#####################################################################"
+                echo "############### Pushing Docker image to the registry ################"
+                echo "#####################################################################"  
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     echo 'Login to the Dockerhub'
                     sh('echo $dockerHubPassword | docker login -u $dockerHubUser --password-stdin')
-                    // sh "docker info"
+                    echo 'Sending image to the Dockerhub'
                     sh 'docker push ${DOCKER_IMAGE_NAME}'
                     echo 'https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated'
                 }
             }  
         }
         
-        stage("Environment - dev server"){
-            // //role instead of environment?
-            // environment {
-            //     AWS_ACCESS_KEY_ID = credentials('aws_access_key_for_jenkins')
-            //     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key_for_jenkins')
-            //     TF_VAR_my_ip = "185.220.94.81/32"
-            // }
+        stage("Environment - Terraform work"){
             steps {
-               script {
+                echo "#####################################################################"
+                echo "####################### Preparing environment #######################"
+                echo "#####################################################################"              
+                script {
                     dir('terraform') {
                         //tf needs access to s3 in the role
-                        // sh 'terraform -v'
                         sh 'terraform init'
-                        // sh 'terraform state list -no-color '
-                        // sh 'terraform plan -target=module.dev_server -no-color '
                         sh 'terraform apply -auto-approve -no-color'
-                        // sh 'terraform destroy -target=module.dev_server -auto-approve -no-color'
                         // sleep 60
                         // sh 'unset DEV_IP'
-                        // sh 'printenv'
+                        // sh 'unset PROD_IP'
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
@@ -98,8 +86,6 @@ pipeline {
                             ).trim()
                     }
                 }
-                echo "DEV_IP is : ${DEV_IP}"
-                echo "PROD_IP is : ${PROD_IP}"
             }
         }
         
@@ -109,11 +95,13 @@ pipeline {
                 // DOCKER_HOST = "ssh://ec2-user@35.178.85.162"
             }
             steps {
+                echo "#####################################################################"
+                echo "####################### Deploy to DEV Server ########################"
+                echo "#####################################################################"  
 
                 script {
                     // wait for the server to boot
                     // sleep(time: 60, unit: "SECONDS")
-                    // sh 'while ! mysqladmin ping -h0.0.0.0 --silent; do sleep 1; done'
                     echo 'deploy to dev server'
                     def dev_server = "ec2-user@${DEV_IP}"
                     def dev_user = 'ec2-user'
@@ -143,26 +131,22 @@ pipeline {
                 }
             }
         }
-                    // sshagent(['ec2-ssh-username-with-pk']) {
-                    //     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USER')]) {                           
-                    //         sh 'ssh -o StrictHostKeyChecking=no ${dev_server} "echo ${DH_PWD} | docker login -u ${DH_USER} --password-stdin"'
-                    //     }
-                    // }
-
-                    // && docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}
-                    // withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'PEM', usernameVariable: 'EC2_USR'), usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR')]) {
-                    // }
         
-        // stage("Test"){
-        //     //Plugin - Build Timestamp for versioning
-        //     steps {
-        //         echo "###########Creating Docker image###########"
-        //         curl http://${DEV_IP}:8080
-        //     }
-        // }
+        stage("Test Dev"){
+            //Plugin - Build Timestamp for versioning
+            steps {
+                echo "#####################################################################"
+                echo "################## Ensure was deployed to DEV Server ################"
+                echo "#####################################################################"  
+                curl http://${DEV_IP}:8080
+            }
+        }
 
         stage("Deploy to production"){
             steps {
+                echo "#####################################################################"
+                echo "####################### Deploy to PROD Server ########################"
+                echo "#####################################################################"  
                 script {
                     // timeout(time:5, unit: MINUTES) {
                     //     input message 'Approve deploy to production?'
@@ -181,7 +165,7 @@ pipeline {
         
     
     }
-// good_practice
+
     post {
         always {
             // cleanWs()
@@ -194,6 +178,9 @@ pipeline {
         }
         success {
             echo 'Build succeeded'
+            echo "DEV_IP is : ${DEV_IP}"
+            echo "PROD_IP is : ${PROD_IP}"
+
         }
     }
 }
