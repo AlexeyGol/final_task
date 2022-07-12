@@ -15,7 +15,7 @@ services:
       - "./conf.d:/etc/mysql/conf.d:ro"
       
   petclinic:
-    image: $DOCKER_IMAGE
+    image: ${DOCKER_IMAGE}
     ports:
       - "8080:8080"
     environment:
