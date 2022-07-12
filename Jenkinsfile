@@ -11,6 +11,7 @@ pipeline {
         sidebarLinks([
             [displayName: 'Side Bar Example', iconFileName: '', urlName: '${DEV_IP}']
         ])
+    }
    
     stages {     
         stage('Build Jar'){
