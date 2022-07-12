@@ -92,9 +92,14 @@ pipeline {
                             returnStdout: true
                             ).trim()
                         // sh 'printenv'
+                        PROD_IP = sh(
+                            script: "terraform output Prod_server_public_ip",
+                            returnStdout: true
+                            ).trim()
                     }
-               }
-               echo "DEV_IP is : ${DEV_IP}"
+                }
+                echo "DEV_IP is : ${DEV_IP}"
+                echo "PROD_IP is : ${PROD_IP}"
             }
         }
         
@@ -162,11 +167,6 @@ pipeline {
                     // timeout(time:5, unit: MINUTES) {
                     //     input message 'Approve deploy to production?'
                     // }
-                    def PROD_IP = sh(
-                        script: "terraform output Prod_server_public_ip",
-                        returnStdout: true
-                        ).trim()
-                    echo "PROD_IP is : ${PROD_IP}"
                     def prod_user = 'ec2-user'
                     def prod_server = "${prod_user}@${PROD_IP}"
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
