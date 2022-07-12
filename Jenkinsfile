@@ -14,6 +14,7 @@ pipeline {
                 timeout(time: 10, unit: "MINUTES")
             }
             steps {
+                echo 123
                 echo "#####################################################################"
                 echo "######################### Building JAR FILE #########################"
                 echo "#####################################################################"
@@ -166,15 +167,20 @@ pipeline {
         }
         failure {
             echo 'Build failed. Notifying on Telegram'
+            withCredentials([string(credentialsId: 'TG', variable: 'TOKEN')]) {
+                sh  ("""
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${TG_CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}*; *Build* : FAILED;'
+                    """)
+            }
             //TG notification
         }
         success {
+            echo 'Build succeeded'
             withCredentials([string(credentialsId: 'TG', variable: 'TOKEN')]) {
                 sh  ("""
-                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${TG_CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *Build* : OK *Published* = YES'
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${TG_CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}*; *Build* : Success;'
                 """)
             }
-            echo 'Build succeeded'
             echo "DEV_IP is : ${DEV_IP}"
             echo "PROD_IP is : ${PROD_IP}"
 
