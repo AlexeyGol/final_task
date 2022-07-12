@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE_NAME="alexego/final_task:final_task_${BUILD_TIMESTAMP}"
+        TG_CHAT_ID="370971807"
     }
     tools {
         maven "mvn 3.8.6"
@@ -168,9 +169,11 @@ pipeline {
             //TG notification
         }
         success {
+            withCredentials([string(credentialsId: 'TG', variable: 'TOKEN')]) {
+                sh  ("""
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${TG_CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *Build* : OK *Published* = YES'
+                """)
             echo 'Build succeeded'
-            telegramSend :
-                message: 'Hello World from Jenkins'
             echo "DEV_IP is : ${DEV_IP}"
             echo "PROD_IP is : ${PROD_IP}"
 
