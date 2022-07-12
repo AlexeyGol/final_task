@@ -15,7 +15,7 @@ resource "aws_instance" "prod-server" {
    ami = data.aws_ami.latest-amazon-linux-image.id
    instance_type = var.instance_type
    subnet_id = var.subnet_id
-   vpc_security_group_ids = [module.dev_server.env_servers_sg_id]
+   vpc_security_group_ids = [var.secur_group_for_prod]
    availability_zone = var.avail_zone
    associate_public_ip_address = true
    key_name = "server-key-pair"

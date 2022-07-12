@@ -60,7 +60,7 @@ module "dev_server" {
    depends_on = [module.myapp-initstaff.internet_gateway, module.Jenkins_master]
 }
 
-module "prod_server" {
+module "production_server" {
    source = "./modules/prod_server"
    vpc_id = aws_vpc.myapp-vpc.id
    my_ip = var.my_ip
@@ -70,4 +70,5 @@ module "prod_server" {
    subnet_id = module.myapp-initstaff.subnet.id
    instance_name = "prod-server"
    depends_on = [module.myapp-initstaff.internet_gateway, module.Jenkins_master]
+   secur_group_for_prod = module.dev_server.env_servers_sg_id
 }
