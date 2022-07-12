@@ -13,7 +13,7 @@ services:
       - MYSQL_DATABASE=petclinic
     volumes:
       - "./conf.d:/etc/mysql/conf.d:ro"
-      - "/var/lib/mysql:/var/lib/mysql"
+      - "/db:/var/lib/mysql"
       
   petclinic:
     image: ${DOCKER_IMAGE}

@@ -76,8 +76,17 @@ resource "aws_instance" "dev-server" {
          sudo chmod 666 /var/run/docker.sock
          sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
          sudo chmod +x /usr/local/bin/docker-compose
+         sudo mkdir /db
+         sudo mount /dev/xvdh /db
    EOF
    # user_data = file("initscript_dev_env.sh")
    tags = {
       Name: "Dev-${var.instance_name}-${var.env_prefix}-server"}
 } 
+
+resource "aws_volume_attachment" "prod_db_attatch" {
+  device_name = "/dev/xvdh"
+  volume_id   = "vol-03a11c24fed931879"
+  instance_id = aws_instance.dev-server.id
+  skip_destroy = true
+}
