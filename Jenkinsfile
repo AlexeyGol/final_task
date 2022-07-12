@@ -169,7 +169,7 @@ pipeline {
             echo 'Build failed. Notifying on Telegram'
             withCredentials([string(credentialsId: 'TG', variable: 'TOKEN')]) {
                 sh  ("""
-                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${TG_CHAT_ID} -d parse_mode=markdown -d text='*${JOB_NAME}*; *Build* : FAILED; ${JENKINS_URL}/final__task__learn/${BUILD_NUMBER}'
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${TG_CHAT_ID} -d parse_mode=markdown -d text='*${JOB_NAME}*; *Build* : FAILED; ${JENKINS_URL}final\_task\_learn/${BUILD_NUMBER}'
                     """)
             }
             //TG notification
