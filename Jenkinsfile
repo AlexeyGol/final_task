@@ -7,11 +7,6 @@ pipeline {
     tools {
         maven "mvn 3.8.6"
     }
-    options {
-        sidebarLinks([
-            [displayName: 'Side Bar Example', iconFileName: '', urlName: 'http://${DEV_IP}:8080']
-        ])
-    }
    
     stages {     
         stage('Build Jar'){
@@ -19,7 +14,7 @@ pipeline {
                 timeout(time: 10, unit: "MINUTES")
             }
             steps {
-                // failFast true
+                failFast true
                 echo "#####################################################################"
                 echo "######################### Building JAR FILE #########################"
                 echo "#####################################################################"
