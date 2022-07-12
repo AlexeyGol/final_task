@@ -1,5 +1,10 @@
 variable my_ip {
-    default = "212.55.87.215/32"
+    description = "Put here your IP for access"
+    default = "91.244.53.93/32"
+}
+variable jenkins_node_ip {
+    description = "Put here Jenkins agent node IP"
+    default = "35.178.239.108"
 }
 variable subnet_cidr_block {
     default = "10.0.10.0/24"
@@ -24,12 +29,4 @@ variable ansible_work_dir {
 }
 variable ssh_key_private {
     default = "/home/alex/.ssh/server-key-pair.pem"
-}
-variable jenkins_node_ip {
-    description = "Put here Jenkins agent node IP"
-    default = "35.178.239.108"
-}
-variable my_ip {
-    description = "Put here your IP for access"
-    default = "91.244.53.93/32"
 }
