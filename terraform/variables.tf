@@ -29,3 +29,7 @@ variable jenkins_node_ip {
     description = "Put here Jenkins agent node IP"
     default = "35.178.239.108"
 }
+variable my_ip {
+    description = "Put here your IP for access"
+    default = "91.244.53.93/32"
+}
