@@ -161,6 +161,7 @@ pipeline {
             // cleanWs()
             sh 'docker image prune -af'
             echo "https://hub.docker.com/repository/registry-1.docker.io/alexego/final_task/tags?page=1&ordering=last_updated"
+
         }
         failure {
             echo 'Build failed. Notifying on Telegram'
@@ -168,6 +169,7 @@ pipeline {
         }
         success {
             echo 'Build succeeded'
+            telegramSend 'Hello World'
             echo "DEV_IP is : ${DEV_IP}"
             echo "PROD_IP is : ${PROD_IP}"
 
