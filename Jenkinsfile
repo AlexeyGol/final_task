@@ -166,9 +166,9 @@ pipeline {
                         script: "terraform output Prod_server_public_ip",
                         returnStdout: true
                         ).trim()
-                                        def dev_server = "ec2-user@${DEV_IP}"
+                    echo "PROD_IP is : ${PROD_IP}"
                     def prod_user = 'ec2-user'
-                    def prod_server = "ec2-user@${PROD_IP}"
+                    def prod_server = "${prod_user}@${PROD_IP}"
                     withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
                         def run_dev_server_script = 'bash /home/ec2-user/dev_script.sh ${DH_USR} ${DH_PWD} ${DOCKER_IMAGE_NAME}'
                         sh "scp -o StrictHostKeyChecking=no -i ${ec2pem} dev_script.sh ${prod_server}:/home/ec2-user"
