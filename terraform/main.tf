@@ -59,3 +59,15 @@ module "dev_server" {
    jenkins_node_ip = var.jenkins_node_ip
    depends_on = [module.myapp-initstaff.internet_gateway, module.Jenkins_master]
 }
+
+module "prod_server" {
+   source = "./modules/prod_server"
+   vpc_id = aws_vpc.myapp-vpc.id
+   my_ip = var.my_ip
+   env_prefix = var.env_prefix
+   instance_type = var.instance_type
+   avail_zone = var.avail_zone
+   subnet_id = module.myapp-initstaff.subnet.id
+   instance_name = "prod-server"
+   depends_on = [module.myapp-initstaff.internet_gateway, module.Jenkins_master]
+}
