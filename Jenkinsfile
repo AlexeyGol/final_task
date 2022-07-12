@@ -176,7 +176,8 @@ pipeline {
                         sh "ssh -o StrictHostKeyChecking=no -i ${ec2pem} -T ${prod_server} ${run_dev_server_script}"
                     }
                 }
-        }        
+            }     
+        }   
         
     
     }
