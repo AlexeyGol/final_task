@@ -6,7 +6,7 @@ export DOCKER_IMAGE=$3
 
 uptime
 echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-docker-compose up -d
+DOCKER_IMAGE=$DOCKER_IMAGE docker-compose up -d
 
 
 
