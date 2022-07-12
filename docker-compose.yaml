@@ -20,4 +20,4 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=mysql
-      - MYSQL_URL=jdbc:mysql://3.8.203.70:3306/petclinic
+      - MYSQL_URL=jdbc:mysql://35.178.42.102:3306/petclinic
