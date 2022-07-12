@@ -1,3 +1,3 @@
-output "prod_ip" {
-    value = aws_instance.prod-server.public_ip
+output "prod_instance" {
+    value = aws_instance.prod-server
 }
