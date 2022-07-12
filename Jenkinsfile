@@ -9,7 +9,7 @@ pipeline {
     }
     options {
         sidebarLinks([
-            [displayName: 'Side Bar Example', iconFileName: '', urlName: '${DEV_IP}']
+            [displayName: 'Side Bar Example', iconFileName: '', urlName: 'http://${DEV_IP}:8080']
         ])
     }
    
