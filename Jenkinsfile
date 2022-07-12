@@ -156,12 +156,27 @@ pipeline {
         //     }
         // }
 
-        // stage("Deploy to production"){
-        //     steps {
-        //         timeout(time:5, unit: MINUTES) {
-        //             input message 'Approve deploy to production?'
-        //         }
-        // }        
+        stage("Deploy to production"){
+            steps {
+                timeout(time:5, unit: MINUTES) {
+                    input message 'Approve deploy to production?'
+                }
+                script {
+                    def PROD_IP = sh(
+                        script: "terraform output Prod_server_public_ip",
+                        returnStdout: true
+                        ).trim()
+                                        def dev_server = "ec2-user@${DEV_IP}"
+                    def prod_user = 'ec2-user'
+                    def prod_server = "ec2-user@${PROD_IP}"
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'DH_PWD', usernameVariable: 'DH_USR'), sshUserPrivateKey(credentialsId: 'ec2-ssh-username-with-pk', keyFileVariable: 'ec2pem', usernameVariable: 'EC2_USR')]){
+                        def run_dev_server_script = 'bash /home/ec2-user/dev_script.sh ${DH_USR} ${DH_PWD} ${DOCKER_IMAGE_NAME}'
+                        sh "scp -o StrictHostKeyChecking=no -i ${ec2pem} dev_script.sh ${prod_server}:/home/ec2-user"
+                        sh "scp -o StrictHostKeyChecking=no -i ${ec2pem} docker-compose.yaml ${prod_server}:/home/ec2-user"
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ec2pem} -T ${prod_server} ${run_dev_server_script}"
+                    }
+                }
+        }        
         
     
     }

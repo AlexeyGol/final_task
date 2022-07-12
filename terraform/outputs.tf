@@ -2,6 +2,9 @@ output "Jenkins_public_ip" {
    value = module.Jenkins_master.instance.public_ip
 }
 
+output "Prod_server_public_ip" {
+   value = module.production_server.prod_ip
+}
 output "Dev_server_public_ip" {
    value = module.dev_server.dev-instance.public_ip
 }
