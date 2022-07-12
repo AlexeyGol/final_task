@@ -132,16 +132,6 @@ pipeline {
             }
         }
         
-        stage("Test Dev"){
-            //Plugin - Build Timestamp for versioning
-            steps {
-                echo "#####################################################################"
-                echo "################## Ensure was deployed to DEV Server ################"
-                echo "#####################################################################"  
-                sh 'curl http://${DEV_IP}:8080'
-            }
-        }
-
         stage("Deploy to production"){
             steps {
                 echo "#####################################################################"
