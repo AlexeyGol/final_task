@@ -170,7 +170,7 @@ pipeline {
         success {
             echo 'Build succeeded'
             telegramSend :
-                message: 'Hello World'
+                message: 'Hello World from Jenkins'
             echo "DEV_IP is : ${DEV_IP}"
             echo "PROD_IP is : ${PROD_IP}"
 
