@@ -71,4 +71,9 @@ module "production_server" {
    instance_name = "prod-server"
    depends_on = [module.myapp-initstaff.internet_gateway, module.Jenkins_master]
    secur_group_for_prod = module.dev_server.env_servers_sg_id
+
+   ansible_work_dir = var.ansible_work_dir
+   playbook_file = "Prepare_prod_server.yaml"
+   ssh_key_private = var.ssh_key_private
+   
 }

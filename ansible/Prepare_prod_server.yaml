@@ -1,0 +1,90 @@
+---
+- name: Ensure that SSH connection is possible
+  hosts: all
+  gather_facts: False
+  tasks:
+    - name: ensure ssh port open
+      wait_for: 
+        port: 22
+        delay: 15
+        timeout: 60
+        search_regex: OpenSSH
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      vars:
+        ansible_connection: local
+
+- name: create directory for mounting ebs volume for DB
+  hosts: all
+  become: yes
+  tasks:
+    - name: create DB directory
+      ansible.builtin.file:
+        path: /db
+        state: directory
+        owner: ec2-user
+        mode: '0755'
+
+
+- name: Install Docker
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Docker
+      yum:
+        name: docker
+        update_cache: yes
+        state: present
+
+- name: Install Docker-compose
+  hosts: all
+  become: yes
+  tasks:
+    - name: Download and Install Docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-{{ lookup('pipe', 'uname -m') }}
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+
+- name: Start Docker
+  hosts: all
+  become: yes
+  tasks:
+    - name: start Docker daemon
+      systemd:
+        name: docker
+        state: started
+
+# To solve docker.image problem
+- name: Install docker python module 
+  hosts: all
+  become: yes
+  tasks:
+    - name: install docker python module
+      pip:
+        name:
+          - docker-py
+
+#to install:  ansible-galaxy collection install ansible.posix
+- name: Mount EBS volume for Jenkins_home data
+  hosts: all
+  become: yes
+  tasks:
+    - name: mount volume
+      ansible.posix.mount:
+        path: /db
+        src: /dev/xvdh
+        fstype: xfs
+        state: mounted
+  
+# - name: Make Jenkins to be able to use Docker commands from host
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: chmod docker.sock
+#       ansible.builtin.file:
+#         path: /var/run/docker.sock
+#         mode: '0666'
+
+
+
+
