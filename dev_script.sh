@@ -7,7 +7,7 @@ export DOCKER_IMAGE=$3
 uptime
 echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 DOCKER_IMAGE=$DOCKER_IMAGE docker-compose up -d
-docker image prune -a
+docker image prune -af
 
 
 
