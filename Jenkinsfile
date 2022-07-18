@@ -75,8 +75,8 @@ pipeline {
                         sh 'terraform init'
                         sh 'terraform apply -auto-approve -no-color'
                         // sleep 60
-                        // sh 'unset DEV_IP'
-                        // sh 'unset PROD_IP'
+                        sh 'unset DEV_IP'
+                        sh 'unset PROD_IP'
                         DEV_IP = sh(
                             script: "terraform output Dev_server_public_ip",
                             returnStdout: true
