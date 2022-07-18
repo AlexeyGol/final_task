@@ -76,14 +76,14 @@
         fstype: xfs
         state: mounted
   
-# - name: Make Jenkins to be able to use Docker commands from host
-#   hosts: all
-#   become: yes
-#   tasks:
-#     - name: chmod docker.sock
-#       ansible.builtin.file:
-#         path: /var/run/docker.sock
-#         mode: '0666'
+- name: Make Jenkins to be able to use Docker commands from host
+  hosts: all
+  become: yes
+  tasks:
+    - name: chmod docker.sock
+      ansible.builtin.file:
+        path: /var/run/docker.sock
+        mode: '0666'
 
 
 
