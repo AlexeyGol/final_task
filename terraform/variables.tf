@@ -1,10 +1,10 @@
 variable my_ip {
     description = "Put here your IP for access"
-    default = "37.139.175.248/32"
+    default = "91.244.54.160/32"
 }
 variable jenkins_node_ip {
     description = "Put here Jenkins agent node IP"
-    default = "35.178.212.8"
+    default = "18.169.163.229"
 }
 variable subnet_cidr_block {
     default = "10.0.10.0/24"
